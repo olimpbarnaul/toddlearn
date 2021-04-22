@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Тренировка словаря{% endblock %}
+{% block title %}Обучение детей{% endblock %}
 
 {% block content %}
 
 
 <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
 	<div class="rounded-md shadow">
-        <a href="{% url 'training' 'dict' %}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+        <a href="{% url 'english:training' 'dict' %}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
            Словарь
 		</a>
 	</div>
@@ -22,9 +22,6 @@
     <label class="block text-gray-700 text-sm font-bold mb-2" for="name" />{{ key }}</label>
     <div> {{ keys }} </div>
     <div> {{ x.xxx }} </div>
-    <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        name="name" id="name" type="text" required>
 </form>
 
 {% endblock %}
