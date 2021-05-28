@@ -1,3 +1,4 @@
+"""Main views file of application English"""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -9,5 +10,7 @@ def index(request):
 
 @login_required
 def training(request, training_type):
-    return render(request, 'english/training_' + training_type +  '.html')
+    print(request.user.profile)
+    return render(request, 'english/training_' + training_type + '.html')
+
 
