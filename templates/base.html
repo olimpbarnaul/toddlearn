@@ -11,7 +11,7 @@
         <link href="{% static 'style.css' %}" rel="stylesheet">
     </head>
     <body class="flex items-center justify-center h-screen">
-        <header class="top-0 lef-0 w-full z-40 fixed border-b">
+        <header class="top-0 left-0 w-full z-40 fixed border-b">
             <div class="container flex items-center justify-between h-16 px-6 mx-auto">
                 <a title="tailwindcss components" href="/">Главная</a> 
                 <div class="hidden sm:block">
@@ -29,6 +29,11 @@
                 </div>
             </div>
         </header>
+        <div class="top-16 left-0 fixed w-full">
+            {% block notification %}
+            {% endblock %}
+        </div>
+
         {% block content %}
         {% endblock %}
     </body>
