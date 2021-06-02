@@ -7,7 +7,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dictionary = models.TextField(max_length=50000, blank=True)
-    to_learn = models.TextField(max_length=50000, blank=True)
+    exercise = models.TextField(max_length=50000, blank=True)
 
 
 @receiver(post_save, sender=User)

@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('dictionary', models.TextField(blank=True, max_length=50000)),
-                ('to_learn', models.TextField(blank=True, max_length=50000)),
+                ('exercise', models.TextField(blank=True, max_length=50000)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

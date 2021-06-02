@@ -2,6 +2,12 @@
 
 {% block title %}Тренировка словаря{% endblock %}
 
+{% block notification %}
+<div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+    <h3>Слов осталось: {{ exercise.data|length }}</h3>
+</div>
+{% endblock %}
+
 {% block content %}
 
 
@@ -15,13 +21,18 @@
 	{% comment %}</div>{% endcomment %}
 </div>
 
-<form id="form" class="mx-2" method="post">
-    <label class="block text-gray-700 text-sm font-bold mb-2" for="name" />{{ key }}</label>
-    <div> {{ keys }} </div>
-    <div> {{ x.xxx }} </div>
-    <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        name="name" id="name" type="text" required>
+
+<form id="form" class="text-3xl lg:w-3/6 w-11/12 flex flex-col items-stretch" method="post">
+    <div class="mb-40">
+        <div class="text-green-500">{{ ok }}</div>     
+        <div class="text-red-500 text-4xl">{{ error }}</div>     
+    </div>
+    {% csrf_token %}
+    <label class="form-label" for="name" /> {{ exercise.word }} </label>
+    <input class="form-input mt-6" name="answer" type="text" autofocus>
+    <input name="word" type="hidden" value="{{ exercise.word }}">
+    <input name="translation" type="hidden" value="{{ exercise.translation }}">
+    <button class="self-center mt-6 px-8 py-3 border border-transparent rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:px-10">Проверить</button>
 </form>
 
 {% endblock %}
