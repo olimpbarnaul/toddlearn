@@ -17,7 +17,7 @@ def training(request, training_type):
     if not user.profile.dictionary:
         training_service.load_dictionary()
         print('dictionary loaded')
-    if not user.profile.exercise:
+    if len(user.profile.exercise) < 3:
         training_service.load_exercise()
 
     data = {}
