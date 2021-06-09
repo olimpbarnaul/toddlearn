@@ -16,12 +16,13 @@ Including another URLconf
 import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('accounts.urls')),
     path('english/', include('english.urls')),
-    path('api/', include('api.urls')),
+    path('eng/', TemplateView.as_view(template_name='index.html')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
