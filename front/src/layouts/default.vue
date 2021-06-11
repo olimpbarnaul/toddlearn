@@ -6,14 +6,25 @@
           <img src="/favicon.png" class="h-6 mr-1" />
           Главная
         </router-link>
-        <span>{{ this.$store.state.user.name }}</span>
-        <a href="/accounts/logout/">Выйти</a>
+        <router-link to="/english/dictionary/translation">
+          Словарь
+        </router-link>
+        <div v-if="this.$store.state.user">
+          <span>{{ this.$store.state.user.name }}</span>
+          <a href="/accounts/logout/">Выйти</a>
+        </div>
+        <div v-else>
+          <a href="'/accounts/login/'">Войти</a>
+        </div>
       </div>
     </header>
     <router-view class="router-view" />
   </div>
 </template>
 <style>
+body {
+  background: no-repeat center/cover url(https://source.unsplash.com/random);
+}
 header {
   @apply flex-none relative z-50 text-sm leading-6 font-medium bg-white ring-1 ring-gray-900 ring-opacity-5 shadow-sm py-5 text-xl;
   @apply fixed inset-x-0;

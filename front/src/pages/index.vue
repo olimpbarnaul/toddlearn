@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <div class="rounded-md shadow">
-      <router-link to="/english/dictionary/translation" class="button">
-        Словарь
-      </router-link>
-    </div>
-    <!--<HelloWorld msg="Welcome to Your Vue.js App" />-->
-  </div>
+  <div class="text-5xl">Hello</div>
+  <!--<HelloWorld msg="Welcome to Your Vue.js App" />-->
 </template>
 
 <script>
@@ -17,7 +11,14 @@ export default {
   components: {
     //HelloWorld,
   },
+  created() {
+    this.axios.get("api/user");
+  },
 };
 </script>
 
-<style></style>
+<style>
+.text-5xl {
+  text-shadow: 0 0 15px rgba(255, 255, 255, 1);
+}
+</style>
