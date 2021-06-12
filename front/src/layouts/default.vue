@@ -6,11 +6,10 @@
           <img src="/static/favicon.png" class="h-6 mr-1" />
           Главная
         </router-link>
-        <router-link to="/english/dictionary/translation">
-          Словарь
-        </router-link>
-        <div v-if="this.$store.state.user">
-          <span>{{ this.$store.state.user.name }}</span>
+        <div v-if="this.$store.state.user" class="contents">
+          <router-link to="/english/dictionary/translation">
+            Словарь
+          </router-link>
           <a :href="'/accounts/logout'">Выйти</a>
         </div>
         <div v-else>
