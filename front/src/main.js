@@ -13,6 +13,10 @@ new Vue({
   store,
   render: (h) => h(App),
   created() {
-    this.axios.get(process.env.VUE_APP_API_URL + "/accounts/user");
+    this.axios
+      .get(process.env.VUE_APP_API_URL + "/accounts/user")
+      .then(({ data }) => {
+          this.$store.commit('setUser', data);
+      });
   },
 }).$mount("#app");

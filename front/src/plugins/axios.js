@@ -10,11 +10,7 @@ import axios from "axios";
 
 let config = {
   baseURL: process.env.VUE_APP_API_URL || "",
-  headers: {
-    Cookie: "sessionid=qi9rtszbxj7w01myiwoqgiu199dsj1xc",
-  },
-  // timeout: 60 * 1000, // Timeout
-   withCredentials: true // Check cross-site Access-Control
+  withCredentials: true // Check cross-site Access-Control
 };
 
 const _axios = axios.create(config);

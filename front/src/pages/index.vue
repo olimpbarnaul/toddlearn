@@ -1,5 +1,5 @@
 <template>
-  <div class="text-5xl">Hello</div>
+  <div class="text-5xl">Привет{{ this.$store.state.user ? ', ' + this.$store.state.user.first_name : '' }}</div>
   <!--<HelloWorld msg="Welcome to Your Vue.js App" />-->
 </template>
 
