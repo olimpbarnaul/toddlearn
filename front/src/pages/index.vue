@@ -11,9 +11,6 @@ export default {
   components: {
     //HelloWorld,
   },
-  created() {
-    this.axios.get("api/user");
-  },
 };
 </script>
 

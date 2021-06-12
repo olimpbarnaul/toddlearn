@@ -3,7 +3,7 @@
     <header>
       <div>
         <router-link to="/" class="flex">
-          <img src="/favicon.png" class="h-6 mr-1" />
+          <img src="/static/favicon.png" class="h-6 mr-1" />
           Главная
         </router-link>
         <router-link to="/english/dictionary/translation">
@@ -11,10 +11,10 @@
         </router-link>
         <div v-if="this.$store.state.user">
           <span>{{ this.$store.state.user.name }}</span>
-          <a href="/accounts/logout/">Выйти</a>
+          <a :href="'/accounts/logout'">Выйти</a>
         </div>
         <div v-else>
-          <a href="'/accounts/login/'">Войти</a>
+          <a :href="'/accounts/login'">Войти</a>
         </div>
       </div>
     </header>

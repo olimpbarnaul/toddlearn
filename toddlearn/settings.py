@@ -43,15 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'english.apps.EnglishConfig',
-    'api.apps.ApiConfig',
-    'accounts.apps.AccountsConfig',
+    'rest_framework',
+    'corsheaders',
     'debug_toolbar',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -133,7 +135,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'templates', 'static'),
     os.path.join(BASE_DIR, 'front', 'dist', 'static'),
 ]
 
@@ -141,3 +142,5 @@ INTERNAL_IPS = env.list('INTERNAL_IPS', default=[])
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST', default=[])

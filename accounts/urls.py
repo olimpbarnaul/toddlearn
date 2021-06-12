@@ -1,7 +1,7 @@
-from django.urls import path
-from .views import *
+from django.urls import include, path
+from . import views
 
-app_name = 'accounts'
 urlpatterns = [
-    path('', index, name='home'),
+    path('user', views.UserData.as_view()),
+    path('', include('rest_framework.urls', namespace='rest_framework'))
 ]
