@@ -3,6 +3,5 @@ from .views import *
 
 app_name = 'english'
 urlpatterns = [
-    # path('', index, name='english'),
-    path('training/<str:training_type>', training, name='training')
+    path('dictionary', dictionary, name='dictionary'),
 ]
