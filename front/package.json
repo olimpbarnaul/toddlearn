@@ -45,5 +45,8 @@
         "chunkNamePrefix": "page-"
       }
     }
+  },
+  "prettier": {
+      "tabWidth": 2
   }
 }

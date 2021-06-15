@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-english-dictionary-translation"],{1610:function(t,n,e){"use strict";e.r(n);var a=function(){var t=this,n=t.$createElement;t._self._c;return t._m(0)},s=[function(){var t=this,n=t.$createElement,e=t._self._c||n;return e("div",{staticClass:"about"},[e("h1",[t._v("This is an about page")])])}],i=e("2877"),l={},r=Object(i["a"])(l,a,s,!1,null,null,null);n["default"]=r.exports}}]);
-//# sourceMappingURL=page-english-dictionary-translation.7c292bea.js.map

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import english from "./modules/english";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,14 @@ export default new Vuex.Store({
       state.user = user;
     },
   },
-  actions: {},
-  modules: {},
+  actions: {
+    fetchUser(context) {
+      this._vm.axios
+        .get(process.env.VUE_APP_API_URL + "/accounts/user")
+        .then(({ data }) => {
+          context.commit("setUser", data);
+        });
+    },
+  },
+  modules: { english: english },
 });
