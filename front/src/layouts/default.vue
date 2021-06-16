@@ -3,14 +3,13 @@
     <header>
       <div>
         <router-link to="/" class="flex">
-          <img src="/static/favicon.png" class="h-6 mr-1" />
           Главная
         </router-link>
         <div v-if="this.$store.state.user" class="contents">
           <router-link to="/english/dictionary/translation">
             Словарь
           </router-link>
-          <a :href="'/accounts/logout'">Выйти</a>
+          <a :href="'/accounts/logout'">&nbsp; Выйти</a>
         </div>
         <div v-else>
           <a :href="'/accounts/login'">Войти</a>

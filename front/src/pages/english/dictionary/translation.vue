@@ -8,7 +8,7 @@
       <label>{{ this.currentWord }}</label>
       <div v-if="this.typing" class="contents">
         <input @input="check" ref="input" autofocus/>
-        <button @click="check">Сдаюсь</button>
+        <button @click="check" class="give-up">Сдаюсь</button>
       </div>
       <div v-else class="contents">
         <label :class="this.ok ? 'text-green-600' : 'text-red-600'">{{
@@ -66,7 +66,7 @@ export default {
   @apply flex-col;
 }
 h1 {
-  @apply mt-20;
+  @apply mt-20 text-center;
 }
 .form {
   @apply text-3xl flex items-center flex-col my-auto;
@@ -80,4 +80,8 @@ input {
 button {
   @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-6 text-lg;
 }
+button.give-up {
+  @apply bg-red-700 hover:bg-red-800;
+}
+
 </style>

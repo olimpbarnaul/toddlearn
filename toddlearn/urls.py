@@ -23,6 +23,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('', TemplateView.as_view(template_name='index.html')),
     path('', include('accounts.urls')),
-    path('english/', include('english.urls')),
+    path('english/api/', include('english.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
