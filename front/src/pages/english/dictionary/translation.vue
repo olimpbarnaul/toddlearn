@@ -5,15 +5,23 @@
       Группа {{ this.currentGroup + 1 }} / {{ this.wordGroups.length }}
     </h1>
     <div class="form">
-      <label>{{ this.currentWord }}</label>
-      <div v-if="this.typing" class="contents">
-        <input @input="check" ref="input" autofocus/>
+      <label class="mb-3">{{ this.currentWord }}</label>
+      <div v-if="this.typing">
+        <input @input="check" ref="input" autofocus />
         <button @click="check" class="give-up">Сдаюсь</button>
       </div>
-      <div v-else class="contents">
-        <label :class="this.ok ? 'text-green-600' : 'text-red-600'">{{
-          this.dictionary[this.currentWord]
-        }}</label>
+      <div v-else>
+        <div class="flex items-center">
+          <img
+            src="/static/sound.svg"
+            @click="playWord"
+            class="play"
+            :class="this.playing ? 'invisible' : ''"
+          />
+          <label :class="this.ok ? 'text-green-600' : 'text-red-600'">{{
+            this.dictionary[this.currentWord]
+          }}</label>
+        </div>
         <button @click="next" ref="next">Дальше</button>
       </div>
     </div>
@@ -21,23 +29,30 @@
 </template>
 <script>
 import { createNamespacedHelpers } from "vuex";
+import play from "../../../plugins/playAudio.js";
 const { mapState } = createNamespacedHelpers("english");
 export default {
   data: () => ({
     typing: true,
+    playing: false,
     ok: false,
   }),
   methods: {
+    playWord() {
+      if (!this.playing) {
+        play(this.currentWord).then(() => {
+          play(this.dictionary[this.currentWord], "ru");
+        });
+        this.playing = true;
+        setTimeout(() => (this.playing = false), 3000);
+      }
+    },
     check(event) {
-      if (
-        event.target.nodeName === "INPUT" &&
-        this.currentVariants.indexOf(event.target.value) > -1
-      ) {
+      this.ok = this.currentVariants.indexOf(event.target.value) > -1;
+      if (this.ok || event.target.nodeName === "BUTTON") {
         this.typing = false;
-        this.ok = true;
+        this.playWord();
         event.target.value = "";
-      } else if (event.target.nodeName === "BUTTON") {
-        this.typing = false;
       }
     },
     next() {
@@ -69,10 +84,10 @@ h1 {
   @apply mt-20 text-center;
 }
 .form {
-  @apply text-3xl flex items-center flex-col my-auto;
+  @apply text-3xl my-auto flex items-center flex-col;
 }
-label {
-  @apply mb-3;
+.form > div {
+  @apply flex items-center flex-col;
 }
 input {
   @apply px-4 py-2;
@@ -83,5 +98,7 @@ button {
 button.give-up {
   @apply bg-red-700 hover:bg-red-800;
 }
-
+.play {
+  @apply mr-2 cursor-pointer h-8;
+}
 </style>

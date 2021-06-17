@@ -2,15 +2,13 @@
   <div>
     <header>
       <div>
-        <router-link to="/" class="flex">
-          Главная
-        </router-link>
-        <div v-if="this.$store.state.user" class="contents">
+        <router-link to="/" class="flex">Главная</router-link>
+        <template v-if="this.$store.state.user">
           <router-link to="/english/dictionary/translation">
             Словарь
           </router-link>
           <a :href="'/accounts/logout'">&nbsp; Выйти</a>
-        </div>
+        </template>
         <div v-else>
           <a :href="'/accounts/login'">Войти</a>
         </div>

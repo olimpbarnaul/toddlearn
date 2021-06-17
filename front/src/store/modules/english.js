@@ -44,7 +44,9 @@ export default {
         }
       }
       state.currentWord = words[parseInt(Math.random() * words.length)];
-      state.currentVariants = state.dictionary[state.currentWord].split(",");
+      state.currentVariants = state.dictionary[state.currentWord]
+        .split(",")
+        .map((a) => a.trim());
     },
   },
   actions: {
