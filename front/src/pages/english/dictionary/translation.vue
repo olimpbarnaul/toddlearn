@@ -12,15 +12,10 @@
       </div>
       <div v-else>
         <div class="flex items-center">
-          <img
-            src="/static/sound.svg"
-            @click="playWord"
-            class="play"
-            :class="this.playing ? 'invisible' : ''"
-          />
-          <label :class="this.ok ? 'text-green-600' : 'text-red-600'">{{
-            this.dictionary[this.currentWord]
-          }}</label>
+          <img src="/static/sound.svg" @click="playWord" class="play" />
+          <label :class="this.ok ? 'text-green-600' : 'text-red-600'">
+            {{ this.dictionary[this.currentWord] }}
+          </label>
         </div>
         <button @click="next" ref="next">Дальше</button>
       </div>
@@ -30,6 +25,8 @@
 <script>
 import { createNamespacedHelpers } from "vuex";
 import play from "../../../plugins/playAudio.js";
+import praise from "../../../store/dict/praise.js";
+import solace from "../../../store/dict/solace.js";
 const { mapState } = createNamespacedHelpers("english");
 export default {
   data: () => ({
@@ -48,7 +45,8 @@ export default {
       }
     },
     check(event) {
-      this.ok = this.currentVariants.indexOf(event.target.value) > -1;
+      this.ok =
+        this.currentVariants.indexOf(event.target.value.toLowerCase()) > -1;
       if (this.ok || event.target.nodeName === "BUTTON") {
         this.typing = false;
         this.playWord();
@@ -56,6 +54,10 @@ export default {
       }
     },
     next() {
+      if (!this.playing){
+        if (this.ok) play(praise(), "ru");
+        else play(solace(), "ru");
+      }
       this.$store.commit("english/setRandomWord", this.ok);
       this.typing = true;
       this.ok = false;
@@ -84,13 +86,14 @@ h1 {
   @apply mt-20 text-center;
 }
 .form {
-  @apply text-3xl my-auto flex items-center flex-col;
+  @apply text-3xl my-auto flex items-center flex-col max-w-full;
 }
 .form > div {
-  @apply flex items-center flex-col;
+  @apply flex items-center flex-col max-w-full;
 }
 input {
   @apply px-4 py-2;
+  max-width: 96%;
 }
 button {
   @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-6 text-lg;
