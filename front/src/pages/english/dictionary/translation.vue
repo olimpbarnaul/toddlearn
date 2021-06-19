@@ -39,17 +39,20 @@ export default {
         this.currentVariants.indexOf(event.target.value.toLowerCase()) > -1;
       if (this.ok || event.target.nodeName === "BUTTON") {
         this.typing = false;
-        play(this.currentWord);
+        this.playCurrentWord();
         event.target.value = "";
       }
     },
     playCurrentWord() {
-      play(this.currentWord);
+      play([
+        this.currentWord,
+        { word: this.dictionary[this.currentWord], lang: "ru" },
+      ]);
     },
     next() {
       if (!this.playing) {
-        if (this.ok) play(praise(), "ru");
-        else play(solace(), "ru");
+        if (this.ok) play({ word: praise(), lang: "ru" });
+        else play({ word: solace(), lang: "ru" });
       }
       this.$store.commit("english/setRandomWord", this.ok);
       this.typing = true;
