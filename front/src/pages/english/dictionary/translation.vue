@@ -12,7 +12,7 @@
       </div>
       <div v-else>
         <div class="flex items-center">
-          <img src="/static/sound.svg" class="play" />
+          <img src="/static/sound.svg" @click="playCurrentWord" class="play" />
           <label :class="this.ok ? 'text-green-600' : 'text-red-600'">
             {{ this.dictionary[this.currentWord] }}
           </label>
@@ -43,8 +43,11 @@ export default {
         event.target.value = "";
       }
     },
+    playCurrentWord() {
+      play(this.currentWord);
+    },
     next() {
-      if (!this.playing){
+      if (!this.playing) {
         if (this.ok) play(praise(), "ru");
         else play(solace(), "ru");
       }
