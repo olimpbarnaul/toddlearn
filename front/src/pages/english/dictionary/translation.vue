@@ -12,7 +12,7 @@
       </div>
       <div v-else>
         <div class="flex items-center">
-          <img src="/static/sound.svg" @click="playWord" class="play" />
+          <img src="/static/sound.svg" class="play" />
           <label :class="this.ok ? 'text-green-600' : 'text-red-600'">
             {{ this.dictionary[this.currentWord] }}
           </label>
@@ -31,25 +31,15 @@ const { mapState } = createNamespacedHelpers("english");
 export default {
   data: () => ({
     typing: true,
-    playing: false,
     ok: false,
   }),
   methods: {
-    playWord() {
-      if (!this.playing) {
-        play(this.currentWord).then(() => {
-          play(this.dictionary[this.currentWord], "ru");
-        });
-        this.playing = true;
-        setTimeout(() => (this.playing = false), 3000);
-      }
-    },
     check(event) {
       this.ok =
         this.currentVariants.indexOf(event.target.value.toLowerCase()) > -1;
       if (this.ok || event.target.nodeName === "BUTTON") {
         this.typing = false;
-        this.playWord();
+        play(this.currentWord);
         event.target.value = "";
       }
     },
