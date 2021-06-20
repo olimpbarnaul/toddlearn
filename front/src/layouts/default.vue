@@ -7,10 +7,10 @@
           <router-link to="/english/dictionary/translation">
             Словарь
           </router-link>
-          <a :href="'/accounts/logout'">&nbsp; Выйти</a>
+          <a :href="'/accounts/logout/'">&nbsp; Выйти</a>
         </template>
         <div v-else>
-          <a :href="'/accounts/login'">Войти</a>
+          <a :href="'/accounts/login/'">Войти</a>
         </div>
       </div>
     </header>

@@ -26,8 +26,9 @@ export default {
     setRandomWord(state, deleteCurrentWord) {
       if (state.currentGroup === null)
         state.currentGroup =
-          localStorage.getItem(localStorage.userId + ".english.currentGroup") ||
-          0;
+          parseInt(
+            localStorage.getItem(localStorage.userId + ".english.currentGroup")
+          ) || 0;
       let words = state.wordGroups[state.currentGroup];
       if (deleteCurrentWord) {
         words.splice(words.indexOf(state.currentWord), 1);
