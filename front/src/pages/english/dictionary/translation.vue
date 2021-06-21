@@ -1,8 +1,8 @@
 <template>
   <div class="page">
     <h1 v-if="this.wordGroups">
-      Слов {{ this.wordGroups[this.currentGroup].length }} <br />
-      Группа {{ this.currentGroup + 1 }} / {{ this.wordGroups.length }}
+      <div>Слов {{ this.wordGroups[this.currentGroup].length }} </div>
+      <div>Группа {{ this.currentGroup + 1 }} / {{ this.wordGroups.length }}</div>
     </h1>
     <div class="form">
       <label class="mb-3">{{ this.currentWord }}</label>
@@ -79,7 +79,7 @@ export default {
   @apply flex-col;
 }
 h1 {
-  @apply mt-20 text-center;
+  @apply mt-20 text-center flex justify-between w-full px-4;
 }
 .form {
   @apply text-3xl my-auto flex items-center flex-col max-w-full;

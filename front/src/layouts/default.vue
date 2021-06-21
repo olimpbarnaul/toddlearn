@@ -26,7 +26,7 @@ header {
   @apply fixed inset-x-0;
 }
 header > div {
-  @apply mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between  flex-wrap sm:flex-nowrap container;
+  @apply mx-auto px-4 w-full flex justify-between  flex-wrap sm:flex-nowrap container;
 }
 .router-view {
   @apply container min-h-screen mx-auto flex justify-center items-center;

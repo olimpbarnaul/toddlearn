@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-clls"],{"448a":function(e,n,t){"use strict";t.r(n);var c=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div")},l=[],a={created:function(){localStorage.clear(),document.location.href="/"}},o=a,r=t("2877"),u=Object(r["a"])(o,c,l,!1,null,null,null);n["default"]=u.exports}}]);
+//# sourceMappingURL=page-clls.dc5adde2.js.map
