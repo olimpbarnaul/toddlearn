@@ -12,14 +12,14 @@ export default {
     setDictionary(state, data) {
       state.dictionary = data;
       localStorage.setItem(
-        localStorage.userId + ".english.dictionary",
+        localStorage.username + ".english.dictionary",
         JSON.stringify(data)
       );
     },
     setWordGroups(state, data) {
       state.wordGroups = data;
       localStorage.setItem(
-        localStorage.userId + ".english.wordGroups",
+        localStorage.username + ".english.wordGroups",
         JSON.stringify(data)
       );
     },
@@ -27,19 +27,21 @@ export default {
       if (state.currentGroup === null)
         state.currentGroup =
           parseInt(
-            localStorage.getItem(localStorage.userId + ".english.currentGroup")
+            localStorage.getItem(
+              localStorage.username + ".english.currentGroup"
+            )
           ) || 0;
       let words = state.wordGroups[state.currentGroup];
       if (deleteCurrentWord) {
         words.splice(words.indexOf(state.currentWord), 1);
         localStorage.setItem(
-          localStorage.userId + ".english.wordGroups",
+          localStorage.username + ".english.wordGroups",
           JSON.stringify(state.wordGroups)
         );
         if (words.length === 0) {
           words = state.wordGroups[++state.currentGroup];
           localStorage.setItem(
-            localStorage.userId + ".english.currentGroup",
+            localStorage.username + ".english.currentGroup",
             state.currentGroup
           );
         }
@@ -52,26 +54,25 @@ export default {
   },
   actions: {
     fetchDictionary(context) {
-      const userId = localStorage.userId;
-      const dictionary = localStorage.getItem(userId + ".english.dictionary");
+      const username = localStorage.username;
+      const dictionary = localStorage.getItem(username + ".english.dictionary");
       if (dictionary) {
         context.commit("setDictionary", JSON.parse(dictionary));
         context.commit(
           "setWordGroups",
-          JSON.parse(localStorage.getItem(userId + ".english.wordGroups"))
+          JSON.parse(localStorage.getItem(username + ".english.wordGroups"))
         );
         context.commit("setRandomWord");
       } else {
-        this._vm.axios
-          .get(process.env.VUE_APP_API_URL + "/english/api/dictionary")
-          .then(({ data }) => {
-            context.commit("setDictionary", data);
-            context.commit(
-              "setWordGroups",
-              dictionaryToWordGroups(data, context.state.maxWordsInGroup)
-            );
-            context.commit("setRandomWord");
-          });
+        const connect = require("axios").create();
+        connect.get("/static/dict/" + username + ".json").then(({ data }) => {
+          context.commit("setDictionary", data);
+          context.commit(
+            "setWordGroups",
+            dictionaryToWordGroups(data, context.state.maxWordsInGroup)
+          );
+          context.commit("setRandomWord");
+        });
       }
     },
   },
