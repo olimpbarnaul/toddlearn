@@ -82,7 +82,8 @@ h1 {
   @apply mt-20 text-center flex justify-between w-full px-4;
 }
 .form {
-  @apply text-3xl my-auto flex items-center flex-col max-w-full;
+  @apply my-auto flex items-center flex-col max-w-full;
+  font-size: 5vw;
 }
 .form > div {
   @apply flex items-center flex-col max-w-full;
@@ -92,7 +93,8 @@ input {
   max-width: 96%;
 }
 button {
-  @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-6 text-lg;
+  @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded;
+  margin-top: 10vh;
 }
 button.give-up {
   @apply bg-red-700 hover:bg-red-800;
