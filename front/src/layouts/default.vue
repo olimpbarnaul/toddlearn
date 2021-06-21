@@ -22,8 +22,9 @@ body {
   background: no-repeat center/cover url(https://source.unsplash.com/random);
 }
 header {
-  @apply flex-none relative z-50 text-sm leading-6 font-medium bg-white ring-1 ring-gray-900 ring-opacity-5 shadow-sm py-5 text-xl;
-  @apply fixed inset-x-0;
+  @apply flex-none relative z-50 text-sm leading-6 font-medium bg-white ring-1 ring-gray-900 ring-opacity-5 shadow-sm;
+  @apply fixed inset-x-0 h-10 flex items-center text-lg font-semibold;
+  
 }
 header > div {
   @apply mx-auto px-4 w-full flex justify-between  flex-wrap sm:flex-nowrap container;

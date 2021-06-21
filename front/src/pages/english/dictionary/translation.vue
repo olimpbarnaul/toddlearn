@@ -1,13 +1,15 @@
 <template>
   <div class="page">
-    <h1 v-if="this.wordGroups">
-      <div>Слов {{ this.wordGroups[this.currentGroup].length }} </div>
-      <div>Группа {{ this.currentGroup + 1 }} / {{ this.wordGroups.length }}</div>
-    </h1>
     <div class="form">
-      <label class="mb-3">{{ this.currentWord }}</label>
+      <h1 v-if="this.wordGroups">
+        <div>Слов {{ this.wordGroups[this.currentGroup].length }}</div>
+        <div @click="requestChangeMaxWordsInGroup">
+          Группа {{ this.currentGroup + 1 }} / {{ this.wordGroups.length }}
+        </div>
+      </h1>
+      <label class="word">{{ this.currentWord }}</label>
       <div v-if="this.typing">
-        <input @input="check" ref="input" autofocus />
+        <input @input="check" autofocus />
         <button @click="check" class="give-up">Сдаюсь</button>
       </div>
       <div v-else>
@@ -17,7 +19,7 @@
             {{ this.dictionary[this.currentWord] }}
           </label>
         </div>
-        <button @click="next" ref="next">Дальше</button>
+        <button @click="next">Дальше</button>
       </div>
     </div>
   </div>
@@ -58,6 +60,16 @@ export default {
       this.typing = true;
       this.ok = false;
     },
+    requestChangeMaxWordsInGroup() {
+      const newMaxWordsInGroup = parseInt(
+        prompt("Сколько слов должно быть в группе?")
+      );
+      if (newMaxWordsInGroup)
+        this.$store.dispatch(
+          "english/changeMaxWordsInGroup",
+          newMaxWordsInGroup
+        );
+    },
   },
   computed: {
     ...mapState({
@@ -75,18 +87,23 @@ export default {
 </script>
 <style scoped>
 .page {
-  background: rgba(255, 255, 255, 0.8);
   @apply flex-col;
 }
 h1 {
-  @apply mt-20 text-center flex justify-between w-full px-4;
+  @apply text-center flex justify-between w-full text-lg;
 }
 .form {
-  @apply my-auto flex items-center flex-col max-w-full;
+  @apply my-auto flex items-center flex-col p-4 pt-2;
+  background: rgba(255, 255, 255, 0.8);
   font-size: 5vw;
+  border-radius: 1rem;
+  width: 96%;
 }
 .form > div {
   @apply flex items-center flex-col max-w-full;
+}
+label.word {
+  @apply my-8;
 }
 input {
   @apply px-4 py-2;
