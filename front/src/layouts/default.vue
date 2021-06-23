@@ -7,6 +7,9 @@
           <router-link to="/english/dictionary/translation">
             Словарь
           </router-link>
+          <router-link to="/math/arithmetic">
+            Арифметика
+          </router-link>
           <a :href="'/accounts/logout/'">&nbsp; Выйти</a>
         </template>
         <div v-else>
@@ -17,19 +20,3 @@
     <router-view class="router-view" />
   </div>
 </template>
-<style>
-body {
-  background: no-repeat center/cover url(https://source.unsplash.com/random);
-}
-header {
-  @apply flex-none relative z-50 text-sm leading-6 font-medium bg-white ring-1 ring-gray-900 ring-opacity-5 shadow-sm;
-  @apply fixed inset-x-0 h-10 flex items-center text-lg font-semibold;
-  
-}
-header > div {
-  @apply mx-auto px-4 w-full flex justify-between  flex-wrap sm:flex-nowrap container;
-}
-.router-view {
-  @apply container min-h-screen mx-auto flex justify-center items-center;
-}
-</style>

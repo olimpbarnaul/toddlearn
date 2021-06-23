@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="form">
+    <div class="card">
       <h1 v-if="this.wordGroups">
         <div>Слов {{ this.wordGroups[this.currentGroup].length }}</div>
         <div @click="requestChangeMaxWordsInGroup">
@@ -15,7 +15,7 @@
       <div v-else>
         <div class="flex items-center">
           <img src="/static/sound.svg" @click="playCurrentWord" class="play" />
-          <label :class="this.ok ? 'text-green-600' : 'text-red-600'">
+          <label class="ok" :class="this.ok.toString()">
             {{ this.dictionary[this.currentWord] }}
           </label>
         </div>
@@ -85,38 +85,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.page {
-  @apply flex-col;
-}
-h1 {
-  @apply text-center flex justify-between w-full text-lg;
-}
-.form {
-  @apply my-auto flex items-center flex-col p-4 pt-2;
-  background: rgba(255, 255, 255, 0.8);
-  font-size: 5vw;
-  border-radius: 1rem;
-  width: 96%;
-}
-.form > div {
-  @apply flex items-center flex-col max-w-full;
-}
-label.word {
-  @apply my-8;
-}
-input {
-  @apply px-4 py-2;
-  max-width: 96%;
-}
-button {
-  @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded;
-  margin-top: 10vh;
-}
-button.give-up {
-  @apply bg-red-700 hover:bg-red-800;
-}
-.play {
-  @apply mr-2 cursor-pointer h-8;
-}
-</style>

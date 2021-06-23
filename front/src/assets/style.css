@@ -1,3 +1,54 @@
-.button {
-  @apply w-full flex items-center justify-center px-8 py-3 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:px-10;
+body {
+  background: no-repeat center/cover url(https://source.unsplash.com/random);
+}
+header {
+  @apply flex-none relative z-50 text-sm leading-6 font-medium bg-white ring-1 ring-gray-900 ring-opacity-5 shadow-sm;
+  @apply h-10 flex items-center text-lg font-semibold;
+}
+header > div {
+  @apply mx-auto px-4 w-full flex justify-between  flex-wrap sm:flex-nowrap container;
+}
+.router-view {
+  @apply container  mx-auto flex justify-center items-center;
+  min-height: calc(100vh - 2.5rem);
+}
+
+.page {
+  @apply flex-col;
+}
+h1 {
+  @apply text-center flex justify-between w-full text-lg;
+}
+.card {
+  @apply my-auto flex items-center flex-col p-4 pt-2;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 5vw;
+  border-radius: 1rem;
+  width: 96%;
+}
+.card > div {
+  @apply flex items-center flex-col max-w-full;
+}
+label.word, label.task {
+  @apply my-8;
+}
+label.ok.true {
+  @apply text-green-600;
+}
+label.ok.false {
+  @apply text-red-600;
+}
+input {
+  @apply px-4 py-2;
+  max-width: 96%;
+}
+button {
+  @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded;
+  margin-top: 10vh;
+}
+button.give-up {
+  @apply bg-red-700 hover:bg-red-800;
+}
+.play {
+  @apply mr-2 cursor-pointer h-8;
 }
