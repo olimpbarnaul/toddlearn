@@ -22,14 +22,11 @@ h1 {
 .card {
   @apply my-auto flex items-center flex-col p-4 pt-2 rounded-xl;
   background: rgba(255, 255, 255, 0.8);
-  font-size: calc(1.1rem + 5vw);
+  font-size: calc(1rem + 5vw);
   width: 96%;
 }
 .card > div {
   @apply flex items-center flex-col max-w-full;
-}
-label.word, label.task {
-  @apply my-8;
 }
 label.ok.true {
   @apply text-green-600;
@@ -43,7 +40,7 @@ input {
 }
 button {
   @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-xl;
-  margin-top: 10vh;
+  margin-top: 5vh;
 }
 button.give-up {
   @apply bg-red-700 hover:bg-red-800;

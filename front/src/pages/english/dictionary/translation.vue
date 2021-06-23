@@ -85,3 +85,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+label.word {
+  @apply my-6;
+}
+</style>

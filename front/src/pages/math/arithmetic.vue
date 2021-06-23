@@ -2,9 +2,9 @@
   <div class="page">
     <div class="card">
       <h1>
-        <div>Ответов {{ successAnswers }}/{{ totalAnswers }}</div>
+        <div>Ответы {{ successAnswers }}/{{ totalAnswers }}</div>
         <div>Уровень {{ level }}</div>
-        <div>Эффективность {{ efficiency }}%</div>
+        <div>Правильно {{ efficiency }}%</div>
       </h1>
       <label class="task">
         {{ x }} {{ sign }} {{ y }} =
@@ -24,8 +24,16 @@
         <div class="invisible"></div>
         <div @click="backspace">←</div>
       </div>
-      <button v-if="this.typing && this.typedResult" @click="checkTask">Проверить</button>
-      <button v-if="!this.typing" @click="startTask" class="next">Дальше</button>
+      <button
+        v-if="this.typing"
+        :class="this.typedResult ? '' : 'invisible'"
+        @click="checkTask"
+      >
+        Проверить
+      </button>
+      <button v-if="!this.typing" @click="startTask" class="next">
+        Дальше
+      </button>
     </div>
   </div>
 </template>
@@ -98,11 +106,15 @@ export default {
 };
 </script>
 <style scoped>
+label.task {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
 .numberKeys {
   @apply flex w-full flex-row flex-wrap justify-around;
 }
 .numberKeys > div {
   width: 30%;
-  @apply text-center bg-yellow-500 my-2 py-1 rounded-xl;
+  @apply text-center bg-yellow-500 my-2 py-1 rounded-xl cursor-pointer;
 }
 </style>
