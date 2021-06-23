@@ -22,7 +22,7 @@
         >
           {{ n }}
         </div>
-        <div></div>
+        <div class="invisible"></div>
         <div @click="backspace">←</div>
       </div>
       <button @click="next">Дальше</button>
@@ -104,6 +104,7 @@ export default {
 }
 .numberKeys > div {
   width: 30%;
-  @apply text-center bg-green-700 my-2;
+  @apply text-center bg-yellow-500 my-2 py-1;
+  border-radius: 1rem;
 }
 </style>
