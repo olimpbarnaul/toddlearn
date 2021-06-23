@@ -2,8 +2,7 @@
   <div class="page">
     <div class="card">
       <h1>
-        <div>Ответов {{ totalAnswers }}</div>
-        <div>Правильных {{ successAnswers }}</div>
+        <div>Ответов {{ successAnswers }}/{{ totalAnswers }}</div>
         <div>Уровень {{ level }}</div>
         <div>Эффективность {{ efficiency }}%</div>
       </h1>
@@ -25,7 +24,8 @@
         <div class="invisible"></div>
         <div @click="backspace">←</div>
       </div>
-      <button @click="next">Дальше</button>
+      <button v-if="this.typing && this.typedResult" @click="checkTask">Проверить</button>
+      <button v-if="!this.typing" @click="startTask" class="next">Дальше</button>
     </div>
   </div>
 </template>
@@ -48,7 +48,9 @@ export default {
   },
   computed: {
     level() {
-      return parseInt((this.totalAnswers * 0.5 + this.successAnswers) * 0.2);
+      return parseInt(
+        5 + (this.totalAnswers * 0.5 + this.successAnswers) * 0.2
+      );
     },
     efficiency() {
       return parseInt((this.successAnswers / this.totalAnswers) * 100) || 0;
@@ -64,9 +66,6 @@ export default {
     backspace() {
       this.typedResult = this.typedResult.slice(0, -1);
     },
-    next() {
-      this.typing ? this.checkTask() : this.startTask();
-    },
     checkTask() {
       this.typing = false;
       this.ok = this.result === parseInt(this.typedResult);
@@ -81,7 +80,7 @@ export default {
       this.y = this.getRandomNumber(this.x, this.sign);
     },
     getRandomNumber(x, sign) {
-      return parseInt(Math.random() * (sign === "-" ? x : 5 + this.level));
+      return parseInt(Math.random() * (sign === "-" ? x : this.level));
     },
     getRandomSign() {
       return Math.random() < 0.5 ? "+" : "-";
@@ -104,7 +103,6 @@ export default {
 }
 .numberKeys > div {
   width: 30%;
-  @apply text-center bg-yellow-500 my-2 py-1;
-  border-radius: 1rem;
+  @apply text-center bg-yellow-500 my-2 py-1 rounded-xl;
 }
 </style>
