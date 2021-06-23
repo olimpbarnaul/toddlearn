@@ -9,16 +9,22 @@
       </h1>
       <label class="task">
         {{ x }} {{ sign }} {{ y }} =
-        <input
-          v-if="this.typing"
-          id="result"
-          type="text"
-          v-model="typedResult"
-        />
+        <span v-if="this.typing">{{ typedResult }}</span>
         <label v-else class="ok" :class="this.ok.toString()">{{
           result
         }}</label>
       </label>
+      <div class="numberKeys">
+        <div
+          v-for="n in [7, 8, 9, 4, 5, 6, 1, 2, 3, 0]"
+          :key="n"
+          @click="type(n)"
+        >
+          {{ n }}
+        </div>
+        <div></div>
+        <div @click="backspace">←</div>
+      </div>
       <button @click="next">Дальше</button>
     </div>
   </div>
@@ -52,6 +58,12 @@ export default {
     },
   },
   methods: {
+    type(n) {
+      this.typedResult += n;
+    },
+    backspace() {
+      this.typedResult = this.typedResult.slice(0, -1);
+    },
     next() {
       this.typing ? this.checkTask() : this.startTask();
     },
@@ -87,7 +99,11 @@ export default {
 };
 </script>
 <style scoped>
-#result {
-  width: 3rem;
+.numberKeys {
+  @apply flex w-full flex-row flex-wrap justify-around;
+}
+.numberKeys > div {
+  width: 30%;
+  @apply text-center bg-green-700 my-2;
 }
 </style>
