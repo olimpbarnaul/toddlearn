@@ -7,9 +7,12 @@
           Группа {{ this.currentGroup + 1 }} / {{ this.wordGroups.length }}
         </div>
       </h1>
-      <label class="word">{{ this.currentWord }}</label>
+      <label class="word w-full flex justify-between">
+        <span>{{ currentWord }}</span>
+        <span v-show="this.typedResult">-</span>
+        <span>{{ typedResult }}</span>
+      </label>
       <div v-if="this.typing" class="w-full">
-        <span class="input">{{ typedResult }}</span>
         <div class="keys">
           <div v-for="n in this.keys" :key="n" @click="type(n)">
             {{ n }}
@@ -32,7 +35,13 @@
             {{ this.dictionary[this.currentWord] }}
           </label>
         </div>
-        <button @click="startTask" :class="this.buttonInvisible">Дальше</button>
+        <button
+          @click="startTask"
+          class="next"
+          :class="this.buttonInvisible + this.ok.toString()"
+        >
+          Дальше
+        </button>
       </div>
     </div>
   </div>
@@ -95,7 +104,7 @@ export default {
         );
     },
     hideButtons() {
-      this.buttonInvisible = "invisible";
+      this.buttonInvisible = "invisible ";
       setTimeout(() => (this.buttonInvisible = ""), 3000);
     },
   },
@@ -112,7 +121,7 @@ export default {
       const typedSymbol = this.currentVariants[0][this.typedResult.length];
       const set = new Set([typedSymbol]);
       while (set.size < 10) set.add(letters[parseInt(Math.random() * 33)]);
-      return Array.from(set).sort(() => Math.random() < 0.5);
+      return Array.from(set).sort();
     },
   },
   created() {
