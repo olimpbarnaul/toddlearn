@@ -7,13 +7,13 @@
           <router-link to="/english/dictionary/translation">
             Словарь
           </router-link>
-          <router-link to="/math/arithmetic">
-            Арифметика
-          </router-link>
-          <a :href="'/accounts/logout/'">&nbsp; Выйти</a>
+          <router-link to="/math/arithmetic">Арифметика</router-link>
+          <router-link to="/auth/switch">{{
+            $store.state.user.firstName
+          }}</router-link>
         </template>
         <div v-else>
-          <a :href="'/accounts/login/'">Войти</a>
+          <router-link to="/auth/login">Войти</router-link>
         </div>
       </div>
     </header>

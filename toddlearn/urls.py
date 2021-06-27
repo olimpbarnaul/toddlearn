@@ -21,9 +21,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('english/api/', include('english.urls')),
-    path('', include('accounts.urls')),
-    path('', TemplateView.as_view(template_name='index.html')),
+    path('english/', include('english.urls')),
     re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]

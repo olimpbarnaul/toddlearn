@@ -10,7 +10,6 @@ import axios from "axios";
 
 let config = {
   baseURL: process.env.VUE_APP_API_URL || "",
-  withCredentials: true // Check cross-site Access-Control
 };
 
 const _axios = axios.create(config);
