@@ -9,11 +9,9 @@ from gtts import gTTS
 from .services import get_dictionary
 
 
-@login_required
 def dictionary(request):
     return HttpResponse(get_dictionary(request.user), content_type='application/json')
 
-@login_required
 def play(request):
     phrase = request.GET.get('phrase')
     lang = request.GET.get('lang', default = 'en')

@@ -48,6 +48,16 @@ button.give-up {
 button.next {
   @apply bg-green-400 hover:bg-green-500;
 }
+button.next.false {
+  @apply bg-red-600;
+}
 .play {
   @apply mr-2 cursor-pointer h-8;
+}
+.card > div.keys, .keys {
+  @apply flex w-full flex-row flex-wrap justify-around;
+}
+.keys > div {
+  width: 30%;
+  @apply text-center bg-yellow-500 my-2 py-1 rounded-xl cursor-pointer;
 }

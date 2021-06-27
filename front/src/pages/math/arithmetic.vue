@@ -13,7 +13,7 @@
           result
         }}</label>
       </label>
-      <div class="numberKeys">
+      <div class="keys">
         <div
           v-for="n in [7, 8, 9, 4, 5, 6, 1, 2, 3, 0]"
           :key="n"
@@ -25,23 +25,23 @@
         <div @click="backspace">←</div>
       </div>
       <button
-        v-if="this.typing"
-        :class="this.typedResult ? '' : 'invisible'"
-        @click="checkTask"
+        @click="startTask"
+        :class="(this.typing ? 'invisible ' : '') + this.ok.toString()"
+        class="next"
       >
-        Проверить
-      </button>
-      <button v-if="!this.typing" @click="startTask" class="next">
         Дальше
       </button>
     </div>
   </div>
 </template>
 <script>
+import play from "../../plugins/playAudio.js";
+import praise from "../../store/dict/praise.js";
+import solace from "../../store/dict/solace.js";
 export default {
   data: () => ({
     typing: null,
-    ok: null,
+    ok: false,
     x: null,
     y: null,
     sign: null,
@@ -70,6 +70,7 @@ export default {
   methods: {
     type(n) {
       this.typedResult += n;
+      if (this.result.toString().length === this.typedResult.length) this.checkTask();
     },
     backspace() {
       this.typedResult = this.typedResult.slice(0, -1);
@@ -79,6 +80,8 @@ export default {
       this.ok = this.result === parseInt(this.typedResult);
       this.setStoredInt("totalAnswers", ++this.totalAnswers);
       this.ok && this.setStoredInt("successAnswers", ++this.successAnswers);
+      if (this.ok) play({ word: praise(), lang: "ru" });
+      else play({ word: solace(), lang: "ru" });
     },
     startTask() {
       this.typing = true;
@@ -109,12 +112,5 @@ export default {
 label.task {
   margin-top: 1vh;
   margin-bottom: 1vh;
-}
-.numberKeys {
-  @apply flex w-full flex-row flex-wrap justify-around;
-}
-.numberKeys > div {
-  width: 30%;
-  @apply text-center bg-yellow-500 my-2 py-1 rounded-xl cursor-pointer;
 }
 </style>

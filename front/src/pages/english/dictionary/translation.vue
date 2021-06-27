@@ -8,9 +8,22 @@
         </div>
       </h1>
       <label class="word">{{ this.currentWord }}</label>
-      <div v-if="this.typing">
-        <input @input="check" autofocus />
-        <button @click="check" class="give-up">Сдаюсь</button>
+      <div v-if="this.typing" class="w-full">
+        <span class="input">{{ typedResult }}</span>
+        <div class="keys">
+          <div v-for="n in this.keys" :key="n" @click="type(n)">
+            {{ n }}
+          </div>
+          <div class="invisible"></div>
+          <div @click="backspace">←</div>
+        </div>
+        <button
+          @click="checkTask"
+          class="give-up"
+          :class="this.buttonInvisible"
+        >
+          Сдаюсь
+        </button>
       </div>
       <div v-else>
         <div class="flex items-center">
@@ -19,7 +32,7 @@
             {{ this.dictionary[this.currentWord] }}
           </label>
         </div>
-        <button @click="next">Дальше</button>
+        <button @click="startTask" :class="this.buttonInvisible">Дальше</button>
       </div>
     </div>
   </div>
@@ -33,32 +46,43 @@ const { mapState } = createNamespacedHelpers("english");
 export default {
   data: () => ({
     typing: true,
+    typedResult: "",
     ok: false,
+    buttonInvisible: "",
   }),
   methods: {
-    check(event) {
-      this.ok =
-        this.currentVariants.indexOf(event.target.value.toLowerCase()) > -1;
-      if (this.ok || event.target.nodeName === "BUTTON") {
-        this.typing = false;
-        this.playCurrentWord();
-        event.target.value = "";
-      }
+    type(n) {
+      this.typedResult += n;
+      if (this.currentVariants[0].length === this.typedResult.length)
+        this.checkTask();
     },
+    backspace() {
+      this.typedResult = this.typedResult.slice(0, -1);
+    },
+    checkTask() {
+      this.ok = this.currentVariants.indexOf(this.typedResult) > -1;
+      this.typing = false;
+      this.playCurrentWord();
+      event.target.value = "";
+      this.hideButtons();
+    },
+
     playCurrentWord() {
       play([
         this.currentWord,
         { word: this.dictionary[this.currentWord], lang: "ru" },
       ]);
     },
-    next() {
+    startTask() {
       if (!this.playing) {
         if (this.ok) play({ word: praise(), lang: "ru" });
         else play({ word: solace(), lang: "ru" });
       }
       this.$store.commit("english/setRandomWord", this.ok);
+      this.typedResult = "";
       this.typing = true;
       this.ok = false;
+      this.hideButtons();
     },
     requestChangeMaxWordsInGroup() {
       const newMaxWordsInGroup = parseInt(
@@ -70,6 +94,10 @@ export default {
           newMaxWordsInGroup
         );
     },
+    hideButtons() {
+      this.buttonInvisible = "invisible";
+      setTimeout(() => (this.buttonInvisible = ""), 3000);
+    },
   },
   computed: {
     ...mapState({
@@ -79,6 +107,13 @@ export default {
       currentWord: "currentWord",
       currentVariants: "currentVariants",
     }),
+    keys() {
+      const letters = "ёйцукенгшщзхъфывапролджэячсмитьбю".split("");
+      const typedSymbol = this.currentVariants[0][this.typedResult.length];
+      const set = new Set([typedSymbol]);
+      while (set.size < 10) set.add(letters[parseInt(Math.random() * 33)]);
+      return Array.from(set).sort(() => Math.random() < 0.5);
+    },
   },
   created() {
     this.$store.dispatch("english/fetchDictionary");

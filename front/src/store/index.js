@@ -27,12 +27,12 @@ export default new Vuex.Store({
         ({ username }) => user.username != username
       );
       localStorage.setItem("users", JSON.stringify(state.users));
-    }
+    },
   },
   actions: {
     fetchUser(context) {
       this._vm.axios
-        .get(process.env.VUE_APP_API_URL + "/accounts/users/me/")
+        .get(process.env.VUE_APP_API_URL + "/api/users/me/")
         .then(({ data }) => {
           context.commit("setUser", data);
           context.commit("addToUsers", {

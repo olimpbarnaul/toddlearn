@@ -25,7 +25,7 @@ export default {
     submit() {
       const { username, password } = this;
       this.$axios
-        .post("/accounts/token/login/", { username, password })
+        .post("/api/token/login/", { username, password })
         .then((response) => {
           localStorage.setItem("authToken", response.data.authToken);
           window.location.href = "/";
