@@ -17,11 +17,10 @@
           <div v-for="n in this.keys" :key="n" @click="type(n)">
             {{ n }}
           </div>
-          <div class="invisible"></div>
           <div @click="backspace">←</div>
         </div>
         <button
-          @click="checkTask"
+          @click="checkTask(true)"
           class="give-up"
           :class="this.buttonInvisible"
         >
@@ -62,18 +61,19 @@ export default {
   methods: {
     type(n) {
       this.typedResult += n;
-      if (this.currentVariants[0].length === this.typedResult.length)
-        this.checkTask();
+      this.checkTask();
     },
     backspace() {
       this.typedResult = this.typedResult.slice(0, -1);
     },
-    checkTask() {
+    checkTask(forceFinish) {
       this.ok = this.currentVariants.indexOf(this.typedResult) > -1;
-      this.typing = false;
-      this.playCurrentWord();
-      event.target.value = "";
-      this.hideButtons();
+      if (forceFinish || this.ok){
+        this.typing = false;
+        this.playCurrentWord();
+        event.target.value = "";
+        this.hideButtons();
+      }
     },
 
     playCurrentWord() {
@@ -118,9 +118,8 @@ export default {
     }),
     keys() {
       const letters = "ёйцукенгшщзхъфывапролджэячсмитьбю".split("");
-      const typedSymbol = this.currentVariants[0][this.typedResult.length];
-      const set = new Set([typedSymbol]);
-      while (set.size < 10) set.add(letters[parseInt(Math.random() * 33)]);
+      const set = new Set(this.currentVariants[0].split(""));
+      while (set.size < 11) set.add(letters[parseInt(Math.random() * 33)]);
       return Array.from(set).sort();
     },
   },
