@@ -64,7 +64,7 @@ export default {
       return parseInt((this.successAnswers / this.totalAnswers) * 100) || 0;
     },
     result() {
-      return this.x + (this.sign === "+" ? 1 : -1) * this.y;
+      return Math.round(this.x + (this.sign === "+" ? 1 : -1) * this.y);
     },
   },
   methods: {
