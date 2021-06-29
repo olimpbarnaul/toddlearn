@@ -8,12 +8,9 @@
       </h1>
       <label class="task">
         {{ x }} {{ sign }} {{ y }} =
-        <span v-if="this.typing">{{ typedResult }}</span>
-        <label v-else class="ok" :class="this.ok.toString()">{{
-          result
-        }}</label>
+        <span class="typedResult" :class="(typing || ok).toString()">{{ typedResult }}</span>
       </label>
-      <div class="keys">
+      <div v-if="this.typing" class="keys">
         <div
           v-for="n in [7, 8, 9, 4, 5, 6, 1, 2, 3, 0]"
           :key="n"
@@ -24,6 +21,7 @@
         <div class="invisible"></div>
         <div @click="backspace">←</div>
       </div>
+      <div v-else class="result">{{ result }}</div>
       <button
         @click="startTask"
         :class="(this.typing ? 'invisible ' : '') + this.ok.toString()"
@@ -113,5 +111,11 @@ export default {
 label.task {
   margin-top: 1vh;
   margin-bottom: 1vh;
+}
+.result {
+  font-size: 10vw;
+}
+.typedResult.false{
+  text-decoration: line-through;
 }
 </style>
