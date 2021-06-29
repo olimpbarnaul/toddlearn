@@ -61,7 +61,7 @@ export default {
       );
     },
     efficiency() {
-      return parseInt((this.successAnswers / this.totalAnswers) * 100) || 0;
+      return ((this.successAnswers / this.totalAnswers) * 100).toFixed(2) || 0;
     },
     result() {
       return Math.round(this.x + (this.sign === "+" ? 1 : -1) * this.y);
@@ -70,7 +70,8 @@ export default {
   methods: {
     type(n) {
       this.typedResult += n;
-      if (this.result.toString().length === this.typedResult.length) this.checkTask();
+      if (this.result.toString().length === this.typedResult.length)
+        this.checkTask();
     },
     backspace() {
       this.typedResult = this.typedResult.slice(0, -1);
