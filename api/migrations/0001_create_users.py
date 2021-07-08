@@ -13,9 +13,8 @@ def create_users(apps, schema_editor):
     User.objects.create_user(username='anna'     , password='Annetka16'   , first_name='Аня')
 
 class Migration(migrations.Migration):
-    dependencies = [ 
+    dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
-        ('english', '0001_initial')
     ]
 
     operations = [

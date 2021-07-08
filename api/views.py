@@ -1,4 +1,3 @@
-"""Main views file of application English"""
 import os
 from django.conf import settings
 from django.contrib.auth.decorators import login_required

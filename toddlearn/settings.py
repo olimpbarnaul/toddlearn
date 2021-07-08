@@ -42,13 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'english.apps.EnglishConfig',
+    'api.apps.ApiConfig',
     'rest_framework',
     "rest_framework.authtoken",
     'djoser',
     'corsheaders',
     'debug_toolbar',
-    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -167,6 +166,6 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'SERIALIZERS': {
-        'current_user': 'accounts.serializers.UserSerializer'
+        'current_user': 'api.serializers.UserSerializer'
     }
 }

@@ -1,4 +1,3 @@
-"""Service functions for English training"""
 import os
 import json
 import random
