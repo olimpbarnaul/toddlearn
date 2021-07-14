@@ -5,7 +5,7 @@ export default function (arr) {
     players.push(
       new Audio(
         process.env.VUE_APP_API_URL +
-          "/api/english/play?" +
+          "/api/play?" +
           (item instanceof Object ? "lang=" + item.lang + "&" : "") +
           "phrase=" +
           (item instanceof Object ? item.word : item)

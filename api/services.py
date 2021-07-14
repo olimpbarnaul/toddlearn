@@ -1,13 +1,7 @@
 import os
 import json
-import random
 from pathlib import Path
 
-
-def get_dictionary(user):
-    if not user.profile.dictionary:
-        load_dictionary(user)
-    return user.profile.dictionary
 
 def load_dictionary(user):
     xml_path = os.path.join(Path(__file__).parent, 'dict')

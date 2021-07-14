@@ -4,10 +4,8 @@
       <div>
         <router-link to="/" class="flex">Главная</router-link>
         <template v-if="this.$store.state.user">
-          <router-link to="/english/dictionary/translation">
-            Словарь
-          </router-link>
-          <router-link to="/math/arithmetic">Арифметика</router-link>
+          <router-link to="/english">English</router-link>
+          <router-link to="/math/arithmetic">Математика</router-link>
           <router-link to="/auth/switch">{{
             $store.state.user.firstName
           }}</router-link>

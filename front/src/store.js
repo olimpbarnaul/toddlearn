@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import english from "./modules/english";
 
 Vue.use(Vuex);
 
@@ -44,5 +43,4 @@ export default new Vuex.Store({
         .catch(() => {});
     },
   },
-  modules: { english: english },
 });

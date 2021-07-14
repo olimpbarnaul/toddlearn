@@ -4,9 +4,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    alias = models.CharField(max_length=200, blank=True)
+class UserData(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='data')
+    slug = models.CharField(max_length=200, blank=True)
     detail = models.TextField(max_length=50000, blank=True)
 
 

@@ -20,10 +20,11 @@ h1 {
   @apply text-center flex justify-between w-full text-lg;
 }
 .card {
-  @apply my-auto flex items-center flex-col p-4 pt-2 rounded-xl;
+  @apply my-auto flex justify-between items-center flex-col p-4 pt-2 rounded-xl;
   background: rgba(255, 255, 255, 0.8);
   font-size: calc(1rem + 5vw);
   width: 96%;
+  min-height: 90vh;
 }
 .card > div {
   @apply flex items-center flex-col max-w-full;
@@ -38,7 +39,7 @@ input {
   @apply px-4 py-2;
   max-width: 96%;
 }
-button, .button {
+button, .button, .button-xl {
   @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-xl;
   margin-top: 5vh;
 }
@@ -51,8 +52,13 @@ button.next {
 button.next.false {
   @apply bg-red-600;
 }
-.play {
-  @apply mr-2 cursor-pointer h-8;
+.button-xl {
+  font-size: calc(1rem + 5vw);
+}
+img.play {
+  @apply cursor-pointer;
+  width: 10vw;
+  margin-right: 5vw;
 }
 .card > div.keys, .keys {
   @apply flex w-full flex-row flex-wrap justify-around;
