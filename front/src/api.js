@@ -51,7 +51,6 @@ export default {
   },
 
   async fetchGet(address, { value, slug, json }) {
-    console.log("fetchGet", address);
     this.payload.method = "GET";
     this.payload.body = null;
     const response = await fetch(address, this.payload);
@@ -67,7 +66,6 @@ export default {
   },
 
   async fetchSet(address, { value, slug }) {
-    console.log("fetchSet", address);
     this.payload.method = "POST";
     this.payload.body = JSON.stringify({
       slug: slug,

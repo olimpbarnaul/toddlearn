@@ -70,6 +70,7 @@ export default {
   }),
   props: {
     category: String,
+    typingCheck: String,
   },
   components: { InputKeys },
   methods: {
@@ -117,7 +118,7 @@ export default {
     playCurrentWord() {
       play([
         this.currentWord,
-    //    { word: this.dictionary[this.currentWord], lang: "ru" },
+        //    { word: this.dictionary[this.currentWord], lang: "ru" },
       ]);
     },
     hideButtons() {
@@ -156,7 +157,6 @@ export default {
 
       this.currentWord =
         choiceWords[parseInt(Math.random() * choiceWords.length)];
-      console.log("word", this.currentWord);
     },
     keydown({ key }) {
       if (key === "Enter")
@@ -173,13 +173,29 @@ export default {
   },
   computed: {
     ok() {
-      return this.currentVariants.indexOf(this.typedResult) > -1;
+      return this.typingCheck === "word"
+        ? this.currentWord === this.typedResult
+        : this.currentVariants.indexOf(this.typedResult) > -1;
     },
     keys() {
-      if (this.currentVariants) {
-        const letters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".split("");
-        const set = new Set(this.currentVariants.join("").split(""));
-        while (set.size < 11) set.add(letters[parseInt(Math.random() * 33)]);
+      if (this.currentVariants && this.currentWord) {
+        const alphabetRu = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".split("");
+        const alphabetEn = "abcdefghijklmnopqrstuvwxyz".split("");
+        const letters =
+          alphabetEn.indexOf(
+            this.typingCheck === "word"
+              ? this.currentWord[0]
+              : this.currentVariants[0][0]
+          ) >= 0
+            ? alphabetEn
+            : alphabetRu;
+
+        const set = new Set(
+          this.typingCheck === "word"
+            ? this.currentWord
+            : this.currentVariants.join("").split("")
+        );
+        while (set.size < 11) set.add(letters[parseInt(Math.random() * letters.length)]);
         return Array.from(set).sort();
       }
       return null;
@@ -208,7 +224,6 @@ export default {
       this.checkTask();
     },
     currentGroup() {
-      console.log("group ", this.currentGroup);
       api.set("groups", this.groups);
     },
   },

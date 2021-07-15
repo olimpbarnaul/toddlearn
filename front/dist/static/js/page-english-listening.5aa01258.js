@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-english-listening"],{f7aa:function(n,e,s){"use strict";s.r(e);var t=function(){var n=this,e=n.$createElement,s=n._self._c||e;return s("english-words",{attrs:{category:"listening"}})},l=[],a=s("3b36"),i={components:{EnglishWords:a["a"]}},o=i,r=s("2877"),c=Object(r["a"])(o,t,l,!1,null,null,null);e["default"]=c.exports}}]);
-//# sourceMappingURL=page-english-listening.5aa01258.js.map
