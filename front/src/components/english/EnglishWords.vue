@@ -9,8 +9,15 @@
         <div>Группа {{ currentGroup + 1 }} / {{ groups.length }}</div>
       </h1>
       <label class="word w-full flex justify-between">
-        <span>{{ currentWord }}</span>
-        <span v-show="typedResult">-</span>
+        <span :class="{ invisible: typing && category === 'listening' }">{{
+          currentWord
+        }}</span>
+        <img
+          v-if="!typing || category === 'listening'"
+          src="/static/sound.svg"
+          @click="playCurrentWord"
+          class="play"
+        />
         <span>{{ typedResult }}</span>
       </label>
       <div v-if="!currentWord && groups && groups.length" class="text-center">
@@ -18,7 +25,7 @@
         <h2>Поздравляю! Ты победитель!</h2>
         <button @click="startTask(true)" class="next">Сброс</button>
       </div>
-      <div v-else-if="typing" class="w-full">
+      <template v-else-if="typing" class="w-full">
         <input-keys :keys="keys" v-model="typedResult" />
         <button
           @click="checkTask(true)"
@@ -27,10 +34,9 @@
         >
           Сдаюсь
         </button>
-      </div>
-      <div v-else>
+      </template>
+      <template v-else>
         <div class="flex items-center">
-          <img src="/static/sound.svg" @click="playCurrentWord" class="play" />
           <label class="ok" :class="ok.toString()">
             {{ dictionary[currentWord] }}
           </label>
@@ -42,7 +48,7 @@
         >
           Дальше
         </button>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -62,6 +68,9 @@ export default {
     currentWord: null,
     maxWordsInGroup: null,
   }),
+  props: {
+    category: String,
+  },
   components: { InputKeys },
   methods: {
     async fetchDictionary() {
@@ -73,18 +82,24 @@ export default {
     checkTask(forceFinish) {
       if (forceFinish || this.ok) {
         this.typing = false;
-        this.playCurrentWord();
         this.hideButtons();
+        if (this.category === "listening") {
+          if (this.ok) play({ word: praise(), lang: "ru" });
+          else play({ word: solace(), lang: "ru" });
+        } else {
+          this.playCurrentWord();
+        }
       }
     },
     startTask(formGroups, firstTime) {
       if (formGroups) this.formGroups();
-      if (!firstTime) {
+      if (!firstTime && this.category !== "listening") {
         if (this.ok) play({ word: praise(), lang: "ru" });
         else play({ word: solace(), lang: "ru" });
       }
       if (this.ok) this.delCurrentWord();
       this.setCurrentWord();
+      if (this.category === "listening") this.playCurrentWord();
       this.typing = true;
       this.hideButtons();
     },
@@ -102,7 +117,7 @@ export default {
     playCurrentWord() {
       play([
         this.currentWord,
-        { word: this.dictionary[this.currentWord], lang: "ru" },
+    //    { word: this.dictionary[this.currentWord], lang: "ru" },
       ]);
     },
     hideButtons() {
