@@ -33,8 +33,8 @@
   </div>
 </template>
 <script>
-//import play from "../../plugins/playAudio.js";
-//import api from "../../api.js";
+import player from "../../plugins/playAudio.js";
+import api from "../../api.js";
 export default {
   data: () => ({
     typing: null,
@@ -48,12 +48,12 @@ export default {
     praises: null,
     solaces: null,
   }),
-  created() {
+  async created() {
     this.getStoredInt("totalAnswers", 0);
     this.getStoredInt("successAnswers", 0);
     this.startTask();
- //   this.praises = api.getStatic("praise/" + localStorage.username);
-    //this.solaces = api.getStatic("solace/" + localStorage.username);
+    this.praises = await api.getStatic("praise/" + localStorage.username);
+    this.solaces = await api.getStatic("solace/solace");
   },
   computed: {
     level() {
@@ -82,8 +82,8 @@ export default {
       this.ok = this.result === parseInt(this.typedResult);
       this.setStoredInt("totalAnswers", ++this.totalAnswers);
       this.ok && this.setStoredInt("successAnswers", ++this.successAnswers);
-    //  if (this.ok) play({ word: this.praise(), lang: "ru" });
-   //   else play({ word: this.solace(), lang: "ru" });
+      if (this.ok) player.play({ word: this.praise(), lang: "ru" });
+      else player.play({ word: this.solace(), lang: "ru" });
     },
     startTask() {
       this.typing = true;
@@ -107,12 +107,12 @@ export default {
     setStoredInt(field, value) {
       localStorage.setItem(localStorage.username + ".math." + field, value);
     },
-//    praise() {
- //     return this.praises[parseInt(Math.random() * this.praises.length)];
-  //  },
- //   solace() {
-  //    return this.solaces[parseInt(Math.random() * this.solaces.length)];
-   // },
+    praise() {
+      return this.praises[parseInt(Math.random() * this.praises.length)];
+    },
+    solace() {
+      return this.solaces[parseInt(Math.random() * this.solaces.length)];
+    },
   },
 };
 </script>
