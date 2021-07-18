@@ -20,16 +20,16 @@ export default {
     );
   },
 
-  async getStatic(entity, defValue) {
-    const slug = [
-      window.location.pathname.split("/")[1],
-      entity,
-      localStorage.username,
-    ];
+  async getStatic(address, defValue) {
+    //const slug = [
+      //window.location.pathname.split("/")[1],
+      //entity,
+      //localStorage.username,
+    //];
 
-    return await this.fetchGet(`/static/${slug.join("/")}.json`, {
+    return await this.fetchGet(`/static/${address}.json`, {
       value: defValue,
-      slug: slug.join("-"),
+      slug: address,
       json: true,
     });
   },

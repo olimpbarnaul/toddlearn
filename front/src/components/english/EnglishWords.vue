@@ -54,9 +54,7 @@
 </template>
 <script>
 import InputKeys from "../InputKeys";
-import play from "../../plugins/playAudio.js";
-import praise from "../../store/dict/praise.js";
-import solace from "../../store/dict/solace.js";
+import player from "../../plugins/playAudio.js";
 import api from "../../api.js";
 export default {
   data: () => ({
@@ -67,6 +65,8 @@ export default {
     groups: null,
     currentWord: null,
     maxWordsInGroup: null,
+    praises: null,
+    solaces: null,
   }),
   props: {
     category: String,
@@ -75,18 +75,23 @@ export default {
   components: { InputKeys },
   methods: {
     async fetchDictionary() {
-      this.dictionary = await api.getStatic("dictionary", {});
+      this.dictionary = await api.getStatic(
+        "english/dictionary/" + localStorage.username,
+        {}
+      );
       this.maxWordsInGroup = parseInt(await api.get("maxWordsInGroup", 10));
       this.groups = await api.get("groups");
       this.startTask(!this.groups, true);
+      this.praises = await api.getStatic("praise/" + localStorage.username);
+      this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
     checkTask(forceFinish) {
       if (forceFinish || this.ok) {
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
-          if (this.ok) play({ word: praise(), lang: "ru" });
-          else play({ word: solace(), lang: "ru" });
+          if (this.ok) player.play({ word: this.praise(), lang: "ru" });
+          else player.play({ word: this.solace(), lang: "ru" });
         } else {
           this.playCurrentWord();
         }
@@ -95,8 +100,8 @@ export default {
     startTask(formGroups, firstTime) {
       if (formGroups) this.formGroups();
       if (!firstTime && this.category !== "listening") {
-        if (this.ok) play({ word: praise(), lang: "ru" });
-        else play({ word: solace(), lang: "ru" });
+        if (this.ok) player.play({ word: this.praise(), lang: "ru" });
+        else player.play({ word: this.solace(), lang: "ru" });
       }
       if (this.ok) this.delCurrentWord();
       this.setCurrentWord();
@@ -116,7 +121,7 @@ export default {
       }
     },
     playCurrentWord() {
-      play([
+      player.play([
         this.currentWord,
         //    { word: this.dictionary[this.currentWord], lang: "ru" },
       ]);
@@ -170,6 +175,12 @@ export default {
         }
       }
     },
+    praise() {
+      return this.praises[parseInt(Math.random() * this.praises.length)];
+    },
+    solace() {
+      return this.solaces[parseInt(Math.random() * this.solaces.length)];
+    },
   },
   computed: {
     ok() {
@@ -195,7 +206,8 @@ export default {
             ? this.currentWord
             : this.currentVariants.join("").split("")
         );
-        while (set.size < 11) set.add(letters[parseInt(Math.random() * letters.length)]);
+        while (set.size < 11)
+          set.add(letters[parseInt(Math.random() * letters.length)]);
         return Array.from(set).sort();
       }
       return null;

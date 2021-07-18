@@ -1,8 +1,4 @@
-export default function () {
-  return phrases[parseInt(Math.random() * phrases.length)];
-}
-
-const phrases = [
+[
   "Ты на верном пути!",
   "Молодец!",
   "Здорово!",
@@ -59,5 +55,5 @@ const phrases = [
   "Ты просто чудо!",
   "Я люблю тебя!",
   "Круто!",
-  "Крассавчик!",
-];
+  "Крассавчик!"
+]

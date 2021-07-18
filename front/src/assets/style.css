@@ -24,7 +24,7 @@ h1 {
   background: rgba(255, 255, 255, 0.8);
   font-size: calc(1rem + 5vw);
   width: 96%;
-  min-height: 90vh;
+  min-height: 80vh;
 }
 .card > div {
   @apply flex items-center flex-col max-w-full;
