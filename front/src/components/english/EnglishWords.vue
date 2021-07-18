@@ -225,8 +225,12 @@ export default {
     },
   },
   mounted() {
-    this.fetchDictionary();
-    document.addEventListener("keydown", this.keydown);
+    try {
+      this.fetchDictionary();
+      document.addEventListener("keydown", this.keydown);
+    } catch(e) {
+      alert(e.message);
+    }
   },
   destroyed() {
     document.removeEventListener("keydown", this.keydown);
