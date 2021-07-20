@@ -155,7 +155,6 @@ export default {
       words.splice(words.indexOf(this.currentWord), 1);
     },
     setCurrentWord() {
-      this.currentWord = null;
       this.typedResult = "";
       let words = this.groups[this.currentGroup];
       const choiceWords = words.filter(
