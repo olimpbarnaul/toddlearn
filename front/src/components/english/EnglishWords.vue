@@ -8,17 +8,17 @@
         </div>
         <div>Группа {{ currentGroup + 1 }} / {{ groups.length }}</div>
       </h1>
-      <label class="word w-full flex justify-between">
+      <label class="translate-word">
         <span :class="{ invisible: typing && category === 'listening' }">{{
           currentWord
         }}</span>
         <img
-          v-if="!typing || category === 'listening'"
           src="/static/sound.svg"
           @click="playCurrentWord"
           class="play"
+          :class="{ invisible: typing && category !== 'listening' }"
         />
-        <span>{{ typedResult }}</span>
+        <span class="text-right">{{ typedResult }}</span>
       </label>
       <div v-if="!currentWord && groups && groups.length" class="text-center">
         <img src="https://lifeo.ru/wp-content/uploads/gif-salyut-10.gif" />
@@ -69,6 +69,7 @@ export default {
     solaces: null,
   }),
   props: {
+    revers: Boolean,
     category: String,
     typingCheck: String,
   },
@@ -79,6 +80,7 @@ export default {
         "english/dictionary/" + localStorage.username,
         {}
       );
+      if (this.revers) this.dictionary = this.reverse(this.dictionary);
       this.maxWordsInGroup = parseInt(
         await api.getUserData("maxWordsInGroup", 10)
       );
@@ -124,7 +126,7 @@ export default {
     },
     playCurrentWord() {
       player.play([
-        this.currentWord,
+        this.revers ? this.dictionary[this.currentWord] : this.currentWord,
         //    { word: this.dictionary[this.currentWord], lang: "ru" },
       ]);
     },
@@ -165,9 +167,9 @@ export default {
         choiceWords[parseInt(Math.random() * choiceWords.length)];
     },
     keydown({ key }) {
-      if (key === "Enter")
+      if (key === "Enter") {
         this.typing ? this.checkTask(true) : this.startTask();
-      if (key === "Escape") {
+      } else if (key === "Escape") {
         if (this.typing) {
           this.typedResult = this.currentVariants[0];
           this.checkTask(true);
@@ -181,6 +183,13 @@ export default {
     },
     solace() {
       return this.solaces[parseInt(Math.random() * this.solaces.length)];
+    },
+    reverse(dict) {
+      const obj = {};
+      for (const [key, value] of Object.entries(dict)) {
+        obj[value] = key;
+      }
+      return obj;
     },
   },
   computed: {
@@ -242,4 +251,15 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.translate-word {
+  @apply w-full flex;
+}
+
+.translate-word img {
+  margin: 0;
+}
+.translate-word span {
+  width: calc(50% - 5vw);
+}
+</style>
