@@ -16,20 +16,20 @@
   </div>
 </template>
 <script>
+import api from "../../api.js";
 export default {
   data: () => ({
     username: null,
     password: null,
   }),
   methods: {
-    submit() {
+    async submit() {
       const { username, password } = this;
-      this.$axios
-        .post("/api/token/login/", { username, password })
-        .then((response) => {
-          localStorage.setItem("authToken", response.data.authToken);
-          window.location.href = "/";
-        });
+      const { data } = await api.login(username, password);
+      if (data && data.authToken) {
+        localStorage.setItem("authToken", data.authToken);
+        window.location.href = "/";
+      }
     },
   },
 };

@@ -79,8 +79,10 @@ export default {
         "english/dictionary/" + localStorage.username,
         {}
       );
-      this.maxWordsInGroup = parseInt(await api.get("maxWordsInGroup", 10));
-      this.groups = await api.get("groups");
+      this.maxWordsInGroup = parseInt(
+        await api.getUserData("maxWordsInGroup", 10)
+      );
+      this.groups = await api.getUserData("groups");
       this.startTask(!this.groups, true);
       this.praises = await api.getStatic("praise/" + localStorage.username);
       this.solaces = await api.getStatic("solace/" + localStorage.username);
@@ -116,8 +118,8 @@ export default {
       if (newMaxWordsInGroup !== this.maxWordsInGroup) {
         this.maxWordsInGroup = newMaxWordsInGroup;
         this.startTask(true);
-        await api.set("maxWordsInGroup", newMaxWordsInGroup);
-        await api.set("groups", this.groups);
+        await api.setUserData("maxWordsInGroup", newMaxWordsInGroup);
+        await api.setUserData("groups", this.groups);
       }
     },
     playCurrentWord() {
@@ -225,12 +227,8 @@ export default {
     },
   },
   mounted() {
-    try {
-      this.fetchDictionary();
-      document.addEventListener("keydown", this.keydown);
-    } catch(e) {
-      alert(e.message);
-    }
+    this.fetchDictionary();
+    document.addEventListener("keydown", this.keydown);
   },
   destroyed() {
     document.removeEventListener("keydown", this.keydown);
@@ -240,7 +238,7 @@ export default {
       this.checkTask();
     },
     currentGroup() {
-      api.set("groups", this.groups);
+      api.setUserData("groups", this.groups);
     },
   },
 };

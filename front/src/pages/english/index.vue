@@ -9,7 +9,6 @@ export default {
     { title: "Перевод - слово", link: "/english/wordTranslate" },
     { title: "Listening", link: "/english/listening" },
     { title: "Аудирование", link: "/english/listeningRu" },
-    { title: "Брейншторм",  link: "/english/brainstorm" },
   ],
   components: {
     SectionMenu,

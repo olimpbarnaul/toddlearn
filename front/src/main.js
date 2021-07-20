@@ -13,10 +13,6 @@ new Vue({
   store,
   render: (h) => h(App),
   created() {
-    const authToken = localStorage.authToken;
-    if (authToken)
-      this.$axios.defaults.headers.common["Authorization"] =
-        "Token " + authToken;
     this.$store.dispatch("fetchUser");
   },
 }).$mount("#app");

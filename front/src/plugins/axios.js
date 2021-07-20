@@ -8,15 +8,18 @@ import axios from "axios";
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-let config = {
-  baseURL: process.env.VUE_APP_API_URL || "",
-};
+let config = {};
 
 const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
+    const token = localStorage.authToken;
+    if (token) {
+      config.headers.Authorization = `Token ${token}`;
+    }
+
     return config;
   },
   function (error) {

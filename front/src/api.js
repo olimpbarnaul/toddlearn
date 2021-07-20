@@ -1,12 +1,6 @@
 export default {
-  baseURL: process.env.VUE_APP_API_URL || "",
-  payload: {
-    headers: {
-      Authorization: `Token ${localStorage.authToken}`,
-      "Content-Type": "application/json",
-    },
-  },
-
+  staticURL: process.env.VUE_APP_STATIC_URL || "",
+  apiURL: process.env.VUE_APP_API_URL || "",
   slug(entity) {
     return (
       window.location.pathname
@@ -21,43 +15,35 @@ export default {
   },
 
   async getStatic(address, defValue) {
-    //const slug = [
-      //window.location.pathname.split("/")[1],
-      //entity,
-      //localStorage.username,
-    //];
-
-    return await this.fetchGet(`/static/${address}.json`, {
+    return await this.get(`${this.staticURL}/static/${address}.json`, {
       value: defValue,
       slug: address,
-      json: true,
     });
   },
 
-  async get(entity, defValue) {
+  async getUserData(entity, defValue) {
     const slug = this.slug(entity);
-    return await this.fetchGet(`${this.baseURL}/api/user_data/${slug}/`, {
+    return await this.get(`${this.apiURL}/api/user_data/${slug}/`, {
       value: defValue,
       slug: slug,
+      field: "detail",
     });
   },
 
-  async set(entity, value) {
+  async setUserData(entity, value) {
     const slug = this.slug(entity);
-    return await this.fetchSet(`${this.baseURL}/api/user_data/${slug}/`, {
+    return await this.post(`${this.apiURL}/api/user_data/${slug}/`, {
       value: value,
       slug: slug,
+      field: "detail",
     });
   },
 
-  async fetchGet(address, { value, slug, json }) {
-    this.payload.method = "GET";
-    this.payload.body = null;
-    const response = await fetch(address, this.payload);
+  async get(address, { value, slug, field }) {
     let data;
     try {
-      data = await response.json();
-      if (!json) data = JSON.parse(data.detail);
+      const response = await window.axios.get(address);
+      data = field ? JSON.parse(response.data[field]) : response.data;
       localStorage.setItem(slug, JSON.stringify(data));
     } catch (e) {
       data = JSON.parse(localStorage.getItem(slug)) || value;
@@ -65,14 +51,19 @@ export default {
     return data;
   },
 
-  async fetchSet(address, { value, slug }) {
-    this.payload.method = "POST";
-    this.payload.body = JSON.stringify({
+  async post(address, { value, slug, field }) {
+    const data = {
       slug: slug,
-      detail: JSON.stringify(value),
-    });
-
-    await fetch(address, this.payload);
+    };
+    if (field) data[field] = JSON.stringify(value);
+    await window.axios.post(address, data);
     localStorage.setItem(slug, JSON.stringify(value));
+  },
+
+  async login(username, password) {
+    return window.axios.post(`${this.apiURL}/api/token/login/`, {
+      username,
+      password,
+    });
   },
 };
