@@ -5,13 +5,12 @@ export default {
     if (!Array.isArray(arr)) arr = [arr];
     const players = [];
     arr.forEach((item) => {
+      const phrase = item instanceof Object ? item.word : item;
+      const lang =
+        "abcdefghijklmnopqrstuvwxyz".indexOf(phrase[0]) > -1 ? "en" : "ru";
       players.push(
         new Audio(
-          process.env.VUE_APP_API_URL +
-            "/api/play?" +
-            (item instanceof Object ? "lang=" + item.lang + "&" : "") +
-            "phrase=" +
-            (item instanceof Object ? item.word : item)
+          `${process.env.VUE_APP_API_URL}/api/play?phrase=${phrase}&lang=${lang}`
         )
       );
     });
