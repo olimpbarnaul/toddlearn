@@ -94,8 +94,14 @@ export default {
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
-          if (this.ok) player.play({ word: this.praise()});
-          else player.play({ word: this.solace()});
+          if (this.ok) player.play({ word: this.praise() });
+          else
+            player.play({
+              word:
+                this.currentWord.length === 1
+                  ? this.currentWord
+                  : this.solace(),
+            });
         } else {
           this.playCurrentWord();
         }
@@ -104,8 +110,8 @@ export default {
     startTask(formGroups, firstTime) {
       if (formGroups) this.formGroups();
       if (!firstTime && this.category !== "listening") {
-        if (this.ok) player.play({ word: this.praise()});
-        else player.play({ word: this.solace()});
+        if (this.ok) player.play({ word: this.praise() });
+        else player.play({ word: this.solace() });
       }
       if (this.ok) this.delCurrentWord();
       this.setCurrentWord();
