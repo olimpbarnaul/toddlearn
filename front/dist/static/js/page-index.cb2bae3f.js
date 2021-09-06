@@ -1,2 +1,2 @@
 (window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-index"],{9261:function(t,e,s){"use strict";s.r(e);var n=function(){var t=this,e=t.$createElement,s=t._self._c||e;return s("div",{staticClass:"text-5xl"},[t._v(" Привет"+t._s(this.$store.state.user?", "+this.$store.state.user.firstName:"")+" ")])},c=[],i={name:"home",components:{}},a=i,o=(s("c9c1"),s("2877")),r=Object(o["a"])(a,n,c,!1,null,null,null);e["default"]=r.exports},"956c":function(t,e,s){},c9c1:function(t,e,s){"use strict";s("956c")}}]);
-//# sourceMappingURL=page-index.b06746e7.js.map
+//# sourceMappingURL=page-index.cb2bae3f.js.map

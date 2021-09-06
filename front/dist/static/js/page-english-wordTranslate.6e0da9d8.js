@@ -1,2 +1,2 @@
 (window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-english-wordTranslate"],{"43a7":function(e,n,s){"use strict";s.r(n);var r=function(){var e=this,n=e.$createElement,s=e._self._c||n;return s("english-words",{attrs:{revers:!0}})},t=[],a=s("3b36"),l={components:{EnglishWords:a["a"]}},o=l,c=s("2877"),i=Object(c["a"])(o,r,t,!1,null,null,null);n["default"]=i.exports}}]);
-//# sourceMappingURL=page-english-wordTranslate.334be921.js.map
+//# sourceMappingURL=page-english-wordTranslate.6e0da9d8.js.map
