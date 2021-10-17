@@ -175,7 +175,7 @@ export default {
     keydown({ key }) {
       if (key === "Enter") {
         this.typing ? this.checkTask(true) : this.startTask();
-      } else if (key === "Escape") {
+      } else if (key === "Escape1") {
         if (this.typing) {
           this.typedResult = this.currentVariants[0];
           this.checkTask(true);
