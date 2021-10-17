@@ -61,9 +61,13 @@ img.play {
   margin-right: 5vw;
 }
 .card > div.keys, .keys {
-  @apply flex w-full flex-row flex-wrap justify-around;
+  @apply flex w-full flex-row flex-wrap justify-around items-stretch;
 }
 .keys > div {
   width: 30%;
   @apply text-center bg-yellow-500 my-2 py-1 rounded-xl cursor-pointer;
+}
+.typed{
+  white-space: pre-wrap;
+  @apply text-right;
 }

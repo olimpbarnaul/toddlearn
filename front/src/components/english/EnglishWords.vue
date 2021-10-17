@@ -18,7 +18,7 @@
           class="play"
           :class="{ invisible: typing && category !== 'listening' }"
         />
-        <span class="text-right">{{ typedResult }}</span>
+        <span class="typed">{{ typedResult }}</span>
       </label>
       <div v-if="!currentWord && groups && groups.length" class="text-center">
         <img src="https://lifeo.ru/wp-content/uploads/gif-salyut-10.gif" />
@@ -172,16 +172,20 @@ export default {
       this.currentWord =
         choiceWords[parseInt(Math.random() * choiceWords.length)];
     },
-    keydown({ key }) {
-      if (key === "Enter") {
+    keydown(key) {
+      if (key.key === "Enter") {
         this.typing ? this.checkTask(true) : this.startTask();
-      } else if (key === "Escape1") {
+      } else if (key.key === "Escape1") {
         if (this.typing) {
           this.typedResult = this.currentVariants[0];
           this.checkTask(true);
         } else {
           this.startTask();
         }
+      } else if ([" ", "r"].indexOf(key.key) > -1) {
+        key.stopPropagation();
+        key.preventDefault();
+        return false;
       }
     },
     praise() {
