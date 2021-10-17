@@ -200,9 +200,10 @@ export default {
   },
   computed: {
     ok() {
+      let typed = this.typedResult.replace(/ +(?= )/g, "").trim();
       return this.typingCheck === "word"
-        ? this.currentWord === this.typedResult
-        : this.currentVariants.indexOf(this.typedResult) > -1;
+        ? this.currentWord === typed
+        : this.currentVariants.indexOf(typed) > -1;
     },
     keys() {
       if (this.currentVariants && this.currentWord) {
@@ -211,8 +212,8 @@ export default {
         const letters =
           alphabetEn.indexOf(
             this.typingCheck === "word"
-              ? this.currentWord[0]
-              : this.currentVariants[0][0]
+              ? this.currentWord[0].toLowerCase()
+              : this.currentVariants[0][0].toLowerCase()
           ) >= 0
             ? alphabetEn
             : alphabetRu;
