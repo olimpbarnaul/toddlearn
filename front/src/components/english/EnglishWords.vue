@@ -95,7 +95,7 @@ export default {
         this.hideButtons();
         if (this.category === "listening") {
           if (this.ok) player.play({ word: this.praise() });
-          else
+          else if (parseInt(process.env.VUE_APP_SOLACE))
             player.play({
               word:
                 this.currentWord.length === 1
@@ -111,7 +111,8 @@ export default {
       if (formGroups) this.formGroups();
       if (!firstTime && this.category !== "listening") {
         if (this.ok) player.play({ word: this.praise() });
-        else player.play({ word: this.solace() });
+        else if (parseInt(process.env.VUE_APP_SOLACE))
+          player.play({ word: this.solace() });
       }
       if (this.ok) this.delCurrentWord();
       this.setCurrentWord();
