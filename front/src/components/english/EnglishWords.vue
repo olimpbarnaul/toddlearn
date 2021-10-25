@@ -6,7 +6,9 @@
           Слово {{ maxWordsInGroup - groups[currentGroup].length + 1 }} /
           {{ maxWordsInGroup }}
         </div>
-        <div>Группа {{ currentGroup + 1 }} / {{ groups.length }}</div>
+        <div @click="showGroupsInfo">
+          Группа {{ currentGroup + 1 }} / {{ groups.length }}
+        </div>
       </h1>
       <label class="translate-word">
         <span :class="{ invisible: typing && category === 'listening' }">{{
@@ -121,10 +123,18 @@ export default {
       this.hideButtons();
     },
     async changeMaxWordsInGroup() {
-      const newMaxWordsInGroup = parseInt(
-        prompt("Сколько слов должно быть в группе?", this.maxWordsInGroup)
+      let newMaxWordsInGroup = parseInt(
+        prompt(
+          `Сколько слов должно быть в группе? Всего ${this.dictCount}.`,
+          this.maxWordsInGroup
+        )
       );
-      if (newMaxWordsInGroup !== this.maxWordsInGroup) {
+      if (
+        !isNaN(newMaxWordsInGroup) &&
+        newMaxWordsInGroup !== this.maxWordsInGroup
+      ) {
+        newMaxWordsInGroup = Math.min(newMaxWordsInGroup, this.dictCount);
+        newMaxWordsInGroup = Math.max(newMaxWordsInGroup, 1);
         this.maxWordsInGroup = newMaxWordsInGroup;
         this.startTask(true);
         await api.setUserData("maxWordsInGroup", newMaxWordsInGroup);
@@ -202,6 +212,13 @@ export default {
       }
       return obj;
     },
+    showGroupsInfo() {
+      let count = 0;
+      for (let i = 0; i < this.groups.length; i++)
+        count += this.groups[i].length;
+
+      alert(`Осталось всего слов: ${count}`);
+    },
   },
   computed: {
     ok() {
@@ -209,6 +226,9 @@ export default {
       return this.typingCheck === "word"
         ? this.currentWord === typed
         : this.currentVariants.indexOf(typed) > -1;
+    },
+    dictCount() {
+      return Object.keys(this.dictionary).length;
     },
     keys() {
       if (this.currentVariants && this.currentWord) {
