@@ -5,6 +5,7 @@
 import SectionMenu from "../../components/SectionMenu";
 export default {
   menu: [
+    { title: "Alphabet", link: "/english/alphabet" },
     { title: "Слово - перевод", link: "/english/translateWord" },
     { title: "Перевод - слово", link: "/english/wordTranslate" },
     { title: "Listening", link: "/english/listening" },

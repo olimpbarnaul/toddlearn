@@ -22,7 +22,7 @@
         />
         <span class="typed">{{ typedResult }}</span>
       </label>
-      <div v-if="!currentWord && groups && groups.length" class="text-center">
+      <div v-if="!wordsInGroups" class="text-center">
         <img src="https://lifeo.ru/wp-content/uploads/gif-salyut-10.gif" />
         <h2>Поздравляю! Ты победитель!</h2>
         <button @click="startTask(true)" class="next">Сброс</button>
@@ -69,25 +69,43 @@ export default {
     maxWordsInGroup: null,
     praises: null,
     solaces: null,
+    alphabetRu: "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".split(""),
+    alphabetEn: "abcdefghijklmnopqrstuvwxyz".split(""),
+    answered: [],
+    factor: 1,
   }),
   props: {
     revers: Boolean,
     category: String,
-    typingCheck: String,
+    typingCheck: {
+      type: String,
+      default: "",
+    },
   },
   components: { InputKeys },
   methods: {
     async fetchDictionary() {
-      this.dictionary = await api.getStatic(
-        "english/dictionary/" + localStorage.username,
-        {}
-      );
+      if (this.typingCheck && this.typingCheck.substring(0, 8) === "alphabet") {
+        this.factor = 3;
+        this.dictionary = {};
+        this[this.typingCheck].forEach((letter) => {
+          this.dictionary[letter] = letter;
+        });
+      } else {
+        this.dictionary = await api.getStatic(
+          "english/dictionary/" + localStorage.username,
+          {}
+        );
+      }
       if (this.revers) this.dictionary = this.reverse(this.dictionary);
       this.maxWordsInGroup = parseInt(
         await api.getUserData("maxWordsInGroup", 10)
       );
       this.groups = await api.getUserData("groups");
-      this.startTask(!this.groups, true);
+      this.startTask(
+        !this.groups || this.typingCheck.substring(0, 8) === "alphabet",
+        true
+      );
       this.praises = await api.getStatic("praise/" + localStorage.username);
       this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
@@ -96,14 +114,12 @@ export default {
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
-          if (this.ok) player.play({ word: this.praise() });
+          if (this.ok) player.play(this.praise(), true);
           else if (parseInt(process.env.VUE_APP_SOLACE))
-            player.play({
-              word:
-                this.currentWord.length === 1
-                  ? this.currentWord
-                  : this.solace(),
-            });
+            player.play(
+              this.currentWord.length === 1 ? this.currentWord : this.solace(),
+              true
+            );
         } else {
           this.playCurrentWord();
         }
@@ -112,11 +128,18 @@ export default {
     startTask(formGroups, firstTime) {
       if (formGroups) this.formGroups();
       if (!firstTime && this.category !== "listening") {
-        if (this.ok) player.play({ word: this.praise() });
+        if (this.ok) player.play(this.praise(), true);
         else if (parseInt(process.env.VUE_APP_SOLACE))
-          player.play({ word: this.solace() });
+          player.play(this.solace(), true);
       }
-      if (this.ok) this.delCurrentWord();
+      if (this.ok) {
+        this.answered.push(this.currentWord);
+        if (
+          this.answered.filter((x) => x === this.currentWord).length >=
+          this.factor
+        )
+          this.delCurrentWord();
+      }
       this.setCurrentWord();
       if (this.category === "listening") this.playCurrentWord();
       this.typing = true;
@@ -142,14 +165,13 @@ export default {
       }
     },
     playCurrentWord() {
-      player.play([
-        this.revers ? this.dictionary[this.currentWord] : this.currentWord,
-        //    { word: this.dictionary[this.currentWord], lang: "ru" },
-      ]);
+      player.play(
+        this.revers ? this.dictionary[this.currentWord] : this.currentWord
+      );
     },
     hideButtons() {
       this.buttonInvisible = "invisible ";
-      setTimeout(() => (this.buttonInvisible = ""), 3000);
+      setTimeout(() => (this.buttonInvisible = ""), 1000);
     },
     formGroups() {
       const words = Object.keys(this.dictionary);
@@ -213,14 +235,17 @@ export default {
       return obj;
     },
     showGroupsInfo() {
-      let count = 0;
-      for (let i = 0; i < this.groups.length; i++)
-        count += this.groups[i].length;
-
-      alert(`Осталось всего слов: ${count}`);
+      alert(`Осталось всего слов: ${this.wordsInGroups}`);
     },
   },
   computed: {
+    wordsInGroups() {
+      let count = 0;
+      if (this.groups)
+        for (let i = 0; i < this.groups.length; i++)
+          count += this.groups[i].length;
+      return count;
+    },
     ok() {
       let typed = this.typedResult.replace(/ +(?= )/g, "").trim();
       return this.typingCheck === "word"
@@ -232,16 +257,14 @@ export default {
     },
     keys() {
       if (this.currentVariants && this.currentWord) {
-        const alphabetRu = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".split("");
-        const alphabetEn = "abcdefghijklmnopqrstuvwxyz".split("");
         const letters =
-          alphabetEn.indexOf(
+          this.alphabetEn.indexOf(
             this.typingCheck === "word"
               ? this.currentWord[0].toLowerCase()
               : this.currentVariants[0][0].toLowerCase()
           ) >= 0
-            ? alphabetEn
-            : alphabetRu;
+            ? this.alphabetEn
+            : this.alphabetRu;
 
         const set = new Set(
           this.typingCheck === "word"

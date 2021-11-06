@@ -1,31 +1,32 @@
 export default {
   playing: false,
-  play(arr) {
+  play(phrase, oneSpeech) {
     if (this.playing) return;
-    if (!Array.isArray(arr)) arr = [arr];
-    const players = [];
-    arr.forEach((item) => {
-      const phrase = item instanceof Object ? item.word : item;
-      const lang =
-        "abcdefghijklmnopqrstuvwxyz".indexOf(phrase[0].toLowerCase()) > -1
-          ? "en"
-          : "ru";
-      players.push(
-        new Audio(
-          `${process.env.VUE_APP_API_URL}/api/play?phrase=${phrase}&lang=${lang}`
-        )
+    const lang =
+      "abcdefghijklmnopqrstuvwxyz".indexOf(phrase[0].toLowerCase()) > -1
+        ? "en-US"
+        : "ru-RU";
+
+    if (!oneSpeech) {
+      const player = new Audio(
+        `${
+          process.env.VUE_APP_API_URL
+        }/api/play?phrase=${phrase}&lang=${lang.substring(0, 2)}`
       );
-    });
-    players.forEach((audio, i) => {
-      if (i === 0) {
-        audio.play();
-        this.playing = true;
-        setTimeout(() => (this.playing = false), 3000);
-      } else {
-        setTimeout(() => {
-          audio.play();
-        }, 3000);
-      }
-    });
+      player.play();
+      this.playing = true;
+    }
+
+    setTimeout(
+      () => {
+        this.playing = false;
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = phrase;
+        msg.lang = lang;
+        msg.rate = lang === "en-US" ? 0.6 : 0.8;
+        speechSynthesis.speak(msg);
+      },
+      oneSpeech ? 0 : 1500
+    );
   },
 };
