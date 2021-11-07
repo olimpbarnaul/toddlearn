@@ -22,12 +22,12 @@
         />
         <span class="typed">{{ typedResult }}</span>
       </label>
-      <div v-if="!wordsInGroups" class="text-center">
-        <img src="https://lifeo.ru/wp-content/uploads/gif-salyut-10.gif" />
+      <div v-if="groups && !wordsInGroups" class="text-center">
+        <img src="https://source.unsplash.com/800x600/?firework,winner" />
         <h2>Поздравляю! Ты победитель!</h2>
         <button @click="startTask(true)" class="next">Сброс</button>
       </div>
-      <template v-else-if="typing" class="w-full">
+      <template v-else-if="groups && typing" class="w-full">
         <input-keys :keys="keys" v-model="typedResult" />
         <button
           @click="checkTask(true)"
@@ -37,7 +37,7 @@
           Сдаюсь
         </button>
       </template>
-      <template v-else>
+      <template v-else-if="groups">
         <div class="flex items-center">
           <label class="ok" :class="ok.toString()">
             {{ dictionary[currentWord] }}
@@ -55,6 +55,12 @@
           Дальше
         </button>
       </template>
+      <div v-else class="m-auto">
+        <img
+          class="illustration"
+          src="/static/loading.gif"
+        />
+      </div>
     </div>
   </div>
 </template>
