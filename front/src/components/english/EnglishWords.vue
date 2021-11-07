@@ -43,6 +43,10 @@
             {{ dictionary[currentWord] }}
           </label>
         </div>
+        <img
+          class="illustration"
+          :src="'https://source.unsplash.com/800x600/?' + currentWord"
+        />
         <button
           @click="startTask(false)"
           class="next"

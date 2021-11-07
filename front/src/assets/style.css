@@ -71,3 +71,7 @@ img.play {
   white-space: pre-wrap;
   @apply text-right;
 }
+.illustration{
+  width: 80%;
+  max-height: 50vh;
+}
