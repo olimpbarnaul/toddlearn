@@ -31,6 +31,7 @@
         <input-keys
           :keys="keys"
           :caps="dictionaryType === 'alphabet' ? Math.random() < 0.5 : false"
+          :backspace="dictionaryType !== 'alphabet'"
           v-model="typedResult"
         />
         <button
@@ -300,7 +301,7 @@ export default {
             ? this.currentWord
             : this.currentVariants.join("").split("")
         );
-        while (set.size < 11)
+        while (set.size < (this.dictionaryType === "alphabet" ? 9 : 11))
           set.add(letters[parseInt(Math.random() * letters.length)]);
         return Array.from(set).sort(() => 0.5 - Math.random());
       }
