@@ -205,7 +205,10 @@ export default {
       let i = 0,
         j = 0;
       while (words.length > 0) {
-        const key = parseInt(Math.random() * words.length);
+        const key =
+          this.dictionaryType === "alphabet"
+            ? 0
+            : parseInt(Math.random() * words.length);
         if (j == this.maxWordsInGroup) {
           i++;
           j = 0;
