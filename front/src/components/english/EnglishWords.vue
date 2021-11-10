@@ -43,7 +43,7 @@
             {{ dictionary[currentWord] }}
           </label>
         </div>
-        <img
+        <img v-if="this.dictionaryType !== 'alphabet'"
           class="illustration"
           :src="'https://source.unsplash.com/800x600/?' + currentWord"
         />
@@ -56,10 +56,7 @@
         </button>
       </template>
       <div v-else class="m-auto">
-        <img
-          class="illustration"
-          src="/static/loading.gif"
-        />
+        <img class="illustration" src="/static/loading.gif" />
       </div>
     </div>
   </div>
@@ -74,6 +71,7 @@ export default {
     typedResult: "",
     buttonInvisible: "",
     dictionary: null,
+    dictionaryType: null,
     groups: null,
     currentWord: null,
     maxWordsInGroup: null,
@@ -81,7 +79,7 @@ export default {
     solaces: null,
     alphabetRu: "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".split(""),
     alphabetEn: "abcdefghijklmnopqrstuvwxyz".split(""),
-    answered: [],
+    answered: new Map(),
     factor: 1,
   }),
   props: {
@@ -95,7 +93,10 @@ export default {
   components: { InputKeys },
   methods: {
     async fetchDictionary() {
-      if (this.typingCheck && this.typingCheck.substring(0, 8) === "alphabet") {
+      this.dictionaryType = this.typingCheck
+        ? this.typingCheck.substring(0, 8)
+        : null;
+      if (this.dictionaryType === "alphabet") {
         this.factor = 3;
         this.dictionary = {};
         this[this.typingCheck].forEach((letter) => {
@@ -112,10 +113,7 @@ export default {
         await api.getUserData("maxWordsInGroup", 10)
       );
       this.groups = await api.getUserData("groups");
-      this.startTask(
-        !this.groups || this.typingCheck.substring(0, 8) === "alphabet",
-        true
-      );
+      this.startTask(!this.groups || this.dictionaryType === "alphabet", true);
       this.praises = await api.getStatic("praise/" + localStorage.username);
       this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
@@ -143,17 +141,22 @@ export default {
           player.play(this.solace(), true);
       }
       if (this.ok) {
-        this.answered.push(this.currentWord);
-        if (
-          this.answered.filter((x) => x === this.currentWord).length >=
-          this.factor
-        )
+        this.incMap(this.answered, this.currentWord);
+        if (this.answered.get(this.currentWord) >= this.factor)
           this.delCurrentWord();
+      } else if (this.currentWord) {
+        this.decMap(this.answered, this.currentWord);
       }
       this.setCurrentWord();
       if (this.category === "listening") this.playCurrentWord();
       this.typing = true;
       this.hideButtons();
+    },
+    incMap(map, key) {
+      map.set(key, (map.get(key) || 0) + 1);
+    },
+    decMap(map, key) {
+      map.set(key, Math.max((map.get(key) || 0) - 1, -3));
     },
     async changeMaxWordsInGroup() {
       let newMaxWordsInGroup = parseInt(
