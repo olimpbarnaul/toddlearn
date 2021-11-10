@@ -299,7 +299,7 @@ export default {
         );
         while (set.size < 11)
           set.add(letters[parseInt(Math.random() * letters.length)]);
-        return Array.from(set).sort();
+        return Array.from(set).sort(() => 0.5 - Math.random());
       }
       return null;
     },
