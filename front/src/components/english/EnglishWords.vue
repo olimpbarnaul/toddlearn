@@ -43,7 +43,8 @@
             {{ dictionary[currentWord] }}
           </label>
         </div>
-        <img v-if="this.dictionaryType !== 'alphabet'"
+        <img
+          v-if="this.dictionaryType !== 'alphabet'"
           class="illustration"
           :src="'https://source.unsplash.com/800x600/?' + currentWord"
         />
@@ -118,7 +119,11 @@ export default {
       this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
     checkTask(forceFinish) {
-      if (forceFinish || this.ok) {
+      if (
+        forceFinish ||
+        this.ok ||
+        (this.typedResult.length && this.dictionaryType === "alphabet")
+      ) {
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
