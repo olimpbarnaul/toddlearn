@@ -1,7 +1,7 @@
 <template>
   <div class="keys">
     <div v-for="n in keys" :key="n" @click="type(n)">
-      {{ n }}
+      {{ caps ? n.toUpperCase() : n }}
     </div>
     <div @click="type('Backspace')">←</div>
   </div>
@@ -11,6 +11,10 @@ export default {
   props: {
     value: String,
     keys: Array,
+    caps: {
+      type: Boolean,
+      default: false,
+    },
   },
   created() {
     document.addEventListener("keydown", this.dispatchType);

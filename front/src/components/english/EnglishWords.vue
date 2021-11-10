@@ -28,7 +28,11 @@
         <button @click="startTask(true)" class="next">Сброс</button>
       </div>
       <template v-else-if="groups && typing" class="w-full">
-        <input-keys :keys="keys" v-model="typedResult" />
+        <input-keys
+          :keys="keys"
+          :caps="dictionaryType === 'alphabet' ? Math.random() < 0.5 : false"
+          v-model="typedResult"
+        />
         <button
           @click="checkTask(true)"
           class="give-up"
@@ -40,7 +44,11 @@
       <template v-else-if="groups">
         <div class="flex items-center">
           <label class="ok" :class="ok.toString()">
-            {{ dictionary[currentWord] }}
+            {{
+              (dictionaryType === "alphabet"
+                ? dictionary[currentWord].toUpperCase() + " "
+                : "") + dictionary[currentWord]
+            }}
           </label>
         </div>
         <img
