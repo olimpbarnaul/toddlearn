@@ -13,7 +13,10 @@
       <label class="translate-word">
         <div
           class="flex items-center"
-          :class="{ invisible: typing && category === 'listening' }"
+          :class="{
+            invisible: typing && category === 'listening',
+            'justify-center': isAlphabet,
+          }"
         >
           {{ typingCheck === "word" ? dictionary[currentWord] : currentWord }}
         </div>
@@ -24,19 +27,23 @@
           :class="{ invisible: typing && category !== 'listening' }"
         />
 
-        <div class="flex flex-col items-end">
+        <div
+          class="flex flex-col"
+          :class="isAlphabet ? 'items-center' : 'items-end'"
+        >
           <span
-            v-if="!ok"
+            v-if="!ok && !isAlphabet"
             class="typed"
             :class="{ 'line-through': !typing && !ok }"
             >{{ typedResult }}</span
           >
-          <label v-if="!typing" class="ok true text-right">
+          <label v-if="!typing" class="text-right">
             {{
-              (dictionaryType === "alphabet"
-                ? dictionary[currentWord].toUpperCase() + " "
-                : "") +
-              (typingCheck === "word" ? currentWord : dictionary[currentWord])
+              isAlphabet
+                ? dictionary[currentWord].toUpperCase()
+                : typingCheck === "word"
+                ? currentWord
+                : dictionary[currentWord]
             }}
           </label>
         </div>
@@ -49,8 +56,8 @@
       <template v-else-if="groups && typing" class="w-full">
         <input-keys
           :keys="keys"
-          :caps="dictionaryType === 'alphabet' ? Math.random() < 0.5 : false"
-          :backspace="dictionaryType !== 'alphabet'"
+          :caps="isAlphabet ? Math.random() < 0.5 : false"
+          :backspace="!isAlphabet"
           v-model="typedResult"
         />
         <button
@@ -63,7 +70,7 @@
       </template>
       <template v-else-if="groups">
         <img
-          v-if="this.dictionaryType !== 'alphabet'"
+          v-if="!isAlphabet"
           class="illustration"
           :src="'https://source.unsplash.com/800x600/?' + currentWord"
         />
@@ -91,7 +98,6 @@ export default {
     typedResult: "",
     buttonInvisible: "",
     dictionary: null,
-    dictionaryType: null,
     groups: null,
     currentWord: null,
     maxWordsInGroup: null,
@@ -113,10 +119,7 @@ export default {
   components: { InputKeys },
   methods: {
     async fetchDictionary() {
-      this.dictionaryType = this.typingCheck
-        ? this.typingCheck.substring(0, 8)
-        : null;
-      if (this.dictionaryType === "alphabet") {
+      if (this.isAlphabet) {
         this.factor = 3;
         this.dictionary = {};
         this[this.typingCheck].forEach((letter) => {
@@ -133,7 +136,7 @@ export default {
         await api.getUserData("maxWordsInGroup", 10)
       );
       this.groups = await api.getUserData("groups");
-      this.startTask(!this.groups || this.dictionaryType === "alphabet", true);
+      this.startTask(!this.groups || this.isAlphabet, true);
       this.praises = await api.getStatic("praise/" + localStorage.username);
       this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
@@ -141,13 +144,20 @@ export default {
       if (
         forceFinish ||
         this.ok ||
-        (this.typedResult.length && this.dictionaryType === "alphabet")
+        (this.typedResult.length && this.isAlphabet)
       ) {
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
-          if (this.ok) player.play(this.praise(), true);
+          if (this.ok)
+            player.play(
+              (Math.random() < 0.2
+                ? this.$store.state.user.firstName + "!"
+                : "") + this.praise(),
+              true
+            );
           else if (this.typedResult.length) player.play("Неправильно", true);
+          else this.playCurrentWord();
         } else {
           this.playCurrentWord();
         }
@@ -165,7 +175,7 @@ export default {
         if (this.answered.get(this.currentWord) >= this.factor)
           this.delCurrentWord();
       } else if (this.currentWord) {
-        this.decMap(this.answered, this.currentWord);
+        this.decMap(this.answered, this.currentWord, this.isAlphabet ? 5 : 1);
       }
       this.setCurrentWord();
       if (this.category === "listening") this.playCurrentWord();
@@ -175,8 +185,8 @@ export default {
     incMap(map, key) {
       map.set(key, (map.get(key) || 0) + 1);
     },
-    decMap(map, key) {
-      map.set(key, Math.max((map.get(key) || 0) - 1, -3));
+    decMap(map, key, limit) {
+      map.set(key, Math.max((map.get(key) || 0) - 1, -1 * limit));
     },
     async changeMaxWordsInGroup() {
       let newMaxWordsInGroup = parseInt(
@@ -212,10 +222,9 @@ export default {
       let i = 0,
         j = 0;
       while (words.length > 0) {
-        const key =
-          this.dictionaryType === "alphabet"
-            ? 0
-            : parseInt(Math.random() * words.length);
+        const key = this.isAlphabet
+          ? 0
+          : parseInt(Math.random() * words.length);
         if (j == this.maxWordsInGroup) {
           i++;
           j = 0;
@@ -275,6 +284,9 @@ export default {
     },
   },
   computed: {
+    isAlphabet() {
+      return this.typingCheck.substring(0, 8) === "alphabet";
+    },
     wordsInGroups() {
       let count = 0;
       if (this.groups)
@@ -307,7 +319,7 @@ export default {
             ? this.currentWord
             : this.currentVariants.join("").split("")
         );
-        while (set.size < (this.dictionaryType === "alphabet" ? 9 : 11))
+        while (set.size < (this.isAlphabet ? 9 : 11))
           set.add(letters[parseInt(Math.random() * letters.length)]);
         return Array.from(set).sort(() => 0.5 - Math.random());
       }
