@@ -11,16 +11,35 @@
         </div>
       </h1>
       <label class="translate-word">
-        <span :class="{ invisible: typing && category === 'listening' }">{{
-          currentWord
-        }}</span>
+        <div
+          class="flex items-center"
+          :class="{ invisible: typing && category === 'listening' }"
+        >
+          {{ typingCheck === "word" ? dictionary[currentWord] : currentWord }}
+        </div>
         <img
           src="/static/sound.svg"
           @click="playCurrentWord"
           class="play"
           :class="{ invisible: typing && category !== 'listening' }"
         />
-        <span class="typed">{{ typedResult }}</span>
+
+        <div class="flex flex-col items-end">
+          <span
+            v-if="!ok"
+            class="typed"
+            :class="{ 'line-through': !typing && !ok }"
+            >{{ typedResult }}</span
+          >
+          <label v-if="!typing" class="ok true text-right">
+            {{
+              (dictionaryType === "alphabet"
+                ? dictionary[currentWord].toUpperCase() + " "
+                : "") +
+              (typingCheck === "word" ? currentWord : dictionary[currentWord])
+            }}
+          </label>
+        </div>
       </label>
       <div v-if="groups && !wordsInGroups" class="text-center">
         <img src="https://source.unsplash.com/800x600/?firework,winner" />
@@ -43,15 +62,6 @@
         </button>
       </template>
       <template v-else-if="groups">
-        <div class="flex items-center">
-          <label class="ok" :class="ok.toString()">
-            {{
-              (dictionaryType === "alphabet"
-                ? dictionary[currentWord].toUpperCase() + " "
-                : "") + dictionary[currentWord]
-            }}
-          </label>
-        </div>
         <img
           v-if="this.dictionaryType !== 'alphabet'"
           class="illustration"
@@ -137,11 +147,7 @@ export default {
         this.hideButtons();
         if (this.category === "listening") {
           if (this.ok) player.play(this.praise(), true);
-          else if (parseInt(process.env.VUE_APP_SOLACE))
-            player.play(
-              this.currentWord.length === 1 ? this.currentWord : this.solace(),
-              true
-            );
+          else if (this.typedResult.length) player.play("Неправильно", true);
         } else {
           this.playCurrentWord();
         }
@@ -344,7 +350,7 @@ export default {
 .translate-word img {
   margin: 0;
 }
-.translate-word span {
+.translate-word div {
   width: calc(50% - 5vw);
 }
 </style>
