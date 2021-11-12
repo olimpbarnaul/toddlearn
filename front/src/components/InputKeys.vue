@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+import { mappedKey } from "../plugins/lang.js";
 export default {
   props: {
     value: String,
@@ -26,7 +27,7 @@ export default {
       else if (n === "Backspace") this.$emit("input", this.value.slice(0, -1));
     },
     dispatchType({ key }) {
-      this.type(key);
+      this.type(mappedKey(key, this.keys));
     },
   },
 };

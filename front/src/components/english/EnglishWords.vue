@@ -91,6 +91,7 @@
 <script>
 import InputKeys from "../InputKeys";
 import player from "../../plugins/playAudio.js";
+import { alphabet, checkLang } from "../../plugins/lang.js";
 import api from "../../api.js";
 export default {
   data: () => ({
@@ -103,8 +104,6 @@ export default {
     maxWordsInGroup: null,
     praises: null,
     solaces: null,
-    alphabetRu: "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".split(""),
-    alphabetEn: "abcdefghijklmnopqrstuvwxyz".split(""),
     answered: new Map(),
     factor: 1,
   }),
@@ -115,6 +114,7 @@ export default {
       type: String,
       default: "",
     },
+    lang: String,
   },
   components: { InputKeys },
   methods: {
@@ -122,7 +122,7 @@ export default {
       if (this.isAlphabet) {
         this.factor = 3;
         this.dictionary = {};
-        this[this.typingCheck].forEach((letter) => {
+        alphabet[this.lang].forEach((letter) => {
           this.dictionary[letter] = letter;
         });
       } else {
@@ -285,7 +285,7 @@ export default {
   },
   computed: {
     isAlphabet() {
-      return this.typingCheck.substring(0, 8) === "alphabet";
+      return this.typingCheck === "alphabet";
     },
     wordsInGroups() {
       let count = 0;
@@ -306,13 +306,13 @@ export default {
     keys() {
       if (this.currentVariants && this.currentWord) {
         const letters =
-          this.alphabetEn.indexOf(
-            this.typingCheck === "word"
-              ? this.currentWord[0].toLowerCase()
-              : this.currentVariants[0][0].toLowerCase()
-          ) >= 0
-            ? this.alphabetEn
-            : this.alphabetRu;
+          alphabet[
+            checkLang(
+              this.typingCheck === "word"
+                ? this.currentWord
+                : this.currentVariants
+            )
+          ];
 
         const set = new Set(
           this.typingCheck === "word"

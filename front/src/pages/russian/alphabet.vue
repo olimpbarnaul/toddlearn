@@ -1,5 +1,9 @@
 <template>
-  <english-words :category="'listening'" :typing-check="'alphabetRu'" />
+  <english-words
+    :category="'listening'"
+    :typing-check="'alphabet'"
+    :lang="'ru'"
+  />
 </template>
 <script>
 import EnglishWords from "../../components/english/EnglishWords";

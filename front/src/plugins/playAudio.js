@@ -1,11 +1,9 @@
+import { checkLanguage } from "./lang.js";
 export default {
   playing: false,
   play(phrase, oneSpeech) {
     if (this.playing) return;
-    const lang =
-      "abcdefghijklmnopqrstuvwxyz".indexOf(phrase[0].toLowerCase()) > -1
-        ? "en-US"
-        : "ru-RU";
+    const lang = checkLanguage(phrase);
 
     if (!oneSpeech) {
       const player = new Audio(
