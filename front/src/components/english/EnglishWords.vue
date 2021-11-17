@@ -301,7 +301,8 @@ export default {
     typedFullfilled() {
       return this.typingCheck === "word"
         ? this.currentWord.length === this.typedFormatted.length
-        : this.currentVariants[0].length === this.typedFormatted.length;
+        : Math.max(...this.currentVariants.map((el) => el.length)) ===
+            this.typedFormatted.length;
     },
     dictCount() {
       return Object.keys(this.dictionary).length;
