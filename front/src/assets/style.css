@@ -1,5 +1,6 @@
 body {
   background: no-repeat center/cover url(https://source.unsplash.com/random);
+  user-select: none;
 }
 header {
   @apply flex-none relative z-50 text-sm leading-6 font-medium bg-white ring-1 ring-gray-900 ring-opacity-5 shadow-sm;
