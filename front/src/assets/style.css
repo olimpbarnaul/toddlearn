@@ -41,7 +41,9 @@ input {
   @apply px-4 py-2;
   max-width: 96%;
 }
-button, .button, .button-xl {
+button,
+.button,
+.button-xl {
   @apply bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-xl;
   margin-top: 5vh;
 }
@@ -62,18 +64,22 @@ img.play {
   width: 10vw;
   margin-right: 5vw;
 }
-.card > div.keys, .keys {
+.card > div.keys,
+.keys {
   @apply flex w-full flex-row flex-wrap justify-around items-stretch;
 }
 .keys > div {
   width: 30%;
   @apply text-center bg-yellow-500 my-2 py-1 rounded-xl cursor-pointer;
 }
-.typed{
+.typed {
   white-space: pre-wrap;
   @apply text-right;
 }
-.illustration{
+.illustration {
   width: 80%;
   max-height: 50vh;
+}
+.line-through {
+  text-decoration-thickness: 2px;
 }

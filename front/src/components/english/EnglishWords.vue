@@ -141,11 +141,7 @@ export default {
       this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
     checkTask(forceFinish) {
-      if (
-        forceFinish ||
-        this.ok ||
-        (this.typedResult.length && this.isAlphabet)
-      ) {
+      if (forceFinish || this.ok || this.typedFullfilled) {
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
@@ -294,11 +290,18 @@ export default {
           count += this.groups[i].length;
       return count;
     },
+    typedFormatted() {
+      return this.typedResult.replace(/ +(?= )/g, "").trim();
+    },
     ok() {
-      let typed = this.typedResult.replace(/ +(?= )/g, "").trim();
       return this.typingCheck === "word"
-        ? this.currentWord === typed
-        : this.currentVariants.indexOf(typed) > -1;
+        ? this.currentWord === this.typedFormatted
+        : this.currentVariants.indexOf(this.typedFormatted) > -1;
+    },
+    typedFullfilled() {
+      return this.typingCheck === "word"
+        ? this.currentWord.length === this.typedFormatted.length
+        : this.currentVariants[0].length === this.typedFormatted.length;
     },
     dictCount() {
       return Object.keys(this.dictionary).length;

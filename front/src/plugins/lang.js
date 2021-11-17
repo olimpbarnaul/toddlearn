@@ -52,7 +52,9 @@ function mappedKey(key, keys) {
     ",": "б",
     ".": "ю",
   };
-  return checkLang(keys) === ru && checkLang(key) === en ? map[key] : key;
+  return checkLang(keys) === ru && checkLang(key) === en && map[key]
+    ? map[key]
+    : key;
 }
 
 export { checkLang, checkLanguage, alphabet, mappedKey };

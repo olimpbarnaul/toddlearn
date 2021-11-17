@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     type(n) {
-      if (this.keys.indexOf(n) >= 0) this.$emit("input", this.value + n);
-      else if (n === "Backspace") this.$emit("input", this.value.slice(0, -1));
+      if (n === "Backspace") this.$emit("input", this.value.slice(0, -1));
+      else if (n.length === 1) this.$emit("input", this.value + n);
     },
     dispatchType({ key }) {
       this.type(mappedKey(key, this.keys));
