@@ -106,6 +106,7 @@ export default {
     solaces: null,
     answered: new Map(),
     factor: 1,
+    attempts: 1,
   }),
   props: {
     revers: Boolean,
@@ -136,12 +137,13 @@ export default {
         await api.getUserData("maxWordsInGroup", 10)
       );
       this.groups = await api.getUserData("groups");
-      this.startTask(!this.groups || this.isAlphabet, true);
+      this.startTask(!this.groups, true);
       this.praises = await api.getStatic("praise/" + localStorage.username);
       this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
     checkTask(forceFinish) {
       if (forceFinish || this.ok || this.typedFullfilled) {
+        this.attempts += 1;
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
@@ -218,9 +220,7 @@ export default {
       let i = 0,
         j = 0;
       while (words.length > 0) {
-        const key = this.isAlphabet
-          ? 0
-          : parseInt(Math.random() * words.length);
+        const key = parseInt(Math.random() * words.length);
         if (j == this.maxWordsInGroup) {
           i++;
           j = 0;
@@ -324,7 +324,13 @@ export default {
             : this.currentVariants.join("").split("")
         );
         while (set.size < (this.isAlphabet ? 9 : 11))
-          set.add(letters[parseInt(Math.random() * letters.length)]);
+          set.add(
+            letters[
+              parseInt(
+                (Math.random() * letters.length * this.attempts) / this.attempts
+              )
+            ]
+          );
         return Array.from(set).sort(() => 0.5 - Math.random());
       }
       return null;
