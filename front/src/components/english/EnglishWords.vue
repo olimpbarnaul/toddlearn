@@ -358,8 +358,9 @@ export default {
     typedResult() {
       this.checkTask();
     },
-    currentGroup() {
-      api.setUserData("groups", this.groups);
+    groups() {
+      if (!((this.maxWordsInGroup - this.groups[this.currentGroup].length) % 9))
+        api.setUserData("groups", this.groups);
     },
   },
 };
