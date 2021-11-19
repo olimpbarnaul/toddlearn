@@ -4,9 +4,7 @@
       <div>
         <router-link to="/" class="flex">Главная</router-link>
         <template v-if="this.$store.state.user">
-          <router-link to="/russian">Русский</router-link>
-          <router-link to="/english">English</router-link>
-          <router-link to="/math/arithmetic">Математика</router-link>
+          <router-link to="/trainings">Тренировки</router-link>
           <router-link to="/auth/switch">{{
             $store.state.user.firstName
           }}</router-link>

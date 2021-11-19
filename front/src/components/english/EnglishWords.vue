@@ -350,9 +350,11 @@ export default {
   mounted() {
     this.fetchDictionary();
     document.addEventListener("keydown", this.keydown);
+    window.onbeforeunload = () => "";
   },
   destroyed() {
     document.removeEventListener("keydown", this.keydown);
+    window.onbeforeunload = null;
   },
   watch: {
     typedResult() {
