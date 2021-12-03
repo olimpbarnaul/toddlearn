@@ -22,7 +22,7 @@
         </div>
         <img
           src="/static/sound.svg"
-          @click="playCurrentWord"
+          @click="playWord"
           class="play"
           :class="{ invisible: typing && category !== 'listening' }"
         />
@@ -154,10 +154,12 @@ export default {
                 : "") + this.praise(),
               true
             );
-          else if (this.typedResult.length) player.play("Неправильно", true);
-          else this.playCurrentWord();
+          else if (this.typedResult.length) {
+            player.play("Неправильно", true);
+            this.playWordTranslate();
+          } else this.playWordTranslate();
         } else {
-          this.playCurrentWord();
+          this.playWordTranslate();
         }
       }
     },
@@ -176,7 +178,7 @@ export default {
         this.decMap(this.answered, this.currentWord, this.isAlphabet ? 5 : 1);
       }
       this.setCurrentWord();
-      if (this.category === "listening") this.playCurrentWord();
+      if (this.category === "listening") this.playWord();
       this.typing = true;
       this.hideButtons();
     },
@@ -205,9 +207,19 @@ export default {
         await api.setUserData("groups", this.groups);
       }
     },
-    playCurrentWord() {
+    playWord() {
       player.play(
         this.revers ? this.dictionary[this.currentWord] : this.currentWord
+      );
+    },
+    playWordTranslate() {
+      player.play(
+        this.revers ? this.dictionary[this.currentWord] : this.currentWord,
+        true
+      );
+      player.play(
+        this.revers ? this.currentWord : this.dictionary[this.currentWord],
+        true
       );
     },
     hideButtons() {

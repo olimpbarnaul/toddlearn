@@ -2,7 +2,7 @@ import { checkLanguage } from "./lang.js";
 export default {
   playing: false,
   play(phrase, oneSpeech) {
-    if (this.playing) return;
+    //if (this.playing) return;
     const lang = checkLanguage(phrase);
 
     if (!oneSpeech) {
