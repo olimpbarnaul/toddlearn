@@ -224,7 +224,7 @@ export default {
     },
     hideButtons() {
       this.buttonInvisible = "invisible ";
-      setTimeout(() => (this.buttonInvisible = ""), 1000);
+      setTimeout(() => (this.buttonInvisible = ""), 3000);
     },
     formGroups() {
       const words = Object.keys(this.dictionary);
@@ -259,7 +259,7 @@ export default {
         choiceWords[parseInt(Math.random() * choiceWords.length)];
     },
     keydown(key) {
-      if (key.key === "Enter") {
+      if (!this.buttonInvisible && key.key === "Enter") {
         this.typing ? this.checkTask(true) : this.startTask();
       } else if (key.key === "Escape1") {
         if (this.typing) {
