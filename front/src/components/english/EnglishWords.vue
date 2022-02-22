@@ -227,7 +227,7 @@ export default {
       setTimeout(() => {
         this.buttonInvisible = "";
         if (this.ok) this.startTask(false);
-      }, 3000);
+      }, 4000);
     },
     formGroups() {
       const words = Object.keys(this.dictionary);
@@ -346,7 +346,7 @@ export default {
               )
             ]
           );
-        return Array.from(set).sort(() => 0.5 - Math.random());
+        return Array.from(set).sort();
       }
       return null;
     },
