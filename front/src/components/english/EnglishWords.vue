@@ -161,6 +161,8 @@ export default {
         } else {
           this.playWordTranslate();
         }
+        if (this.ok)
+          this.startTask(false);
       }
     },
     startTask(formGroups, firstTime) {
