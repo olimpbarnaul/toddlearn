@@ -161,8 +161,6 @@ export default {
         } else {
           this.playWordTranslate();
         }
-        if (this.ok)
-          this.startTask(false);
       }
     },
     startTask(formGroups, firstTime) {
@@ -226,7 +224,10 @@ export default {
     },
     hideButtons() {
       this.buttonInvisible = "invisible ";
-      setTimeout(() => (this.buttonInvisible = ""), 3000);
+      setTimeout(() => {
+        this.buttonInvisible = "";
+        if (this.ok) this.startTask(false);
+      }, 3000);
     },
     formGroups() {
       const words = Object.keys(this.dictionary);
