@@ -376,7 +376,7 @@ export default {
       this.checkTask();
     },
     groups() {
-      if (!((this.maxWordsInGroup - this.groups[this.currentGroup].length) % 9))
+      if (!((this.maxWordsInGroup - this.groups[this.currentGroup].length) % 5))
         api.setUserData("groups", this.groups);
     },
   },
