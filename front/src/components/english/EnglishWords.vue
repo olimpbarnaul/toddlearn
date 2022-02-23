@@ -107,6 +107,7 @@ export default {
     answered: new Map(),
     factor: 1,
     attempts: 1,
+    playInterval: null,
   }),
   props: {
     revers: Boolean,
@@ -141,8 +142,15 @@ export default {
       this.praises = await api.getStatic("praise/" + localStorage.username);
       this.solaces = await api.getStatic("solace/" + localStorage.username);
     },
+    stopPlay() {
+      if (this.playInterval) {
+        clearInterval(this.playInterval);
+        this.playInterval = null;
+      }
+    },
     checkTask(forceFinish) {
       if (forceFinish || this.ok || this.typedFullfilled) {
+        this.stopPlay();
         this.attempts += 1;
         this.typing = false;
         this.hideButtons();
@@ -178,7 +186,10 @@ export default {
         this.decMap(this.answered, this.currentWord, this.isAlphabet ? 5 : 1);
       }
       this.setCurrentWord();
-      if (this.category === "listening") this.playWord();
+      if (this.category === "listening")
+        this.playInterval = setInterval(() => {
+          this.playWord();
+        }, 10000);
       this.typing = true;
       this.hideButtons();
     },
@@ -369,6 +380,7 @@ export default {
   },
   destroyed() {
     document.removeEventListener("keydown", this.keydown);
+    this.stopPlay();
     window.onbeforeunload = null;
   },
   watch: {
