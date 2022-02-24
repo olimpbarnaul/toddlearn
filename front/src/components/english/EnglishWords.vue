@@ -3,7 +3,11 @@
     <div class="card">
       <h1 v-if="groups && currentGroup !== null">
         <div @click="changeMaxWordsInGroup">
-          Слово {{ maxWordsInGroup - groups[currentGroup].length + 1 }} /
+          Слов
+          {{
+            maxWordsInGroup - groups[currentGroup].length + (this.ok ? 1 : 0)
+          }}
+          /
           {{ maxWordsInGroup }}
         </div>
         <div @click="showGroupsInfo">
