@@ -191,6 +191,7 @@ export default {
       }
       this.setCurrentWord();
       if (this.category === "listening")
+        this.stopPlay();
         this.playInterval = setInterval(() => {
           this.playWord();
         }, 10000);
