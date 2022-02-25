@@ -192,9 +192,10 @@ export default {
       this.setCurrentWord();
       if (this.category === "listening")
         this.stopPlay();
+        this.playWord();
         this.playInterval = setInterval(() => {
           this.playWord();
-        }, 10000);
+        }, 15000);
       this.typing = true;
       this.hideButtons();
     },
