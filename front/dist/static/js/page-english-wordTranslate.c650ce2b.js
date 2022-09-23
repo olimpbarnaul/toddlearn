@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-english-wordTranslate"],{"43a7":function(n,s,e){"use strict";e.r(s);var r=function(){var n=this,s=n._self._c;return s("english-words",{attrs:{revers:!0}})},t=[],a=e("3b36"),l={components:{EnglishWords:a["a"]}},o=l,i=e("2877"),u=Object(i["a"])(o,r,t,!1,null,null,null);s["default"]=u.exports}}]);
+//# sourceMappingURL=page-english-wordTranslate.c650ce2b.js.map

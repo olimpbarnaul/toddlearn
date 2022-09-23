@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-english-alphabet"],{"493b":function(n,e,t){"use strict";t.r(e);var a=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("english-words",{attrs:{category:"listening","typing-check":"alphabet",lang:"en"}})},l=[],s=t("3b36"),c={components:{EnglishWords:s["a"]}},i=c,o=t("2877"),r=Object(o["a"])(i,a,l,!1,null,null,null);e["default"]=r.exports}}]);
-//# sourceMappingURL=page-english-alphabet.bd97337b.js.map

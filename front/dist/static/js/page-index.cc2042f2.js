@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-index"],{1185:function(t,s,e){},"882a":function(t,s,e){"use strict";e("1185")},9261:function(t,s,e){"use strict";e.r(s);var n=function(){var t=this,s=t._self._c;return s("div",{staticClass:"text-5xl"},[t._v(" Привет"+t._s(this.$store.state.user?", "+this.$store.state.user.firstName:"")+" ")])},a=[],i={name:"home"},u=i,r=(e("882a"),e("2877")),o=Object(r["a"])(u,n,a,!1,null,null,null);s["default"]=o.exports}}]);
+//# sourceMappingURL=page-index.cc2042f2.js.map

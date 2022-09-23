@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["page-russian-alphabet"],{6879:function(n,s,t){"use strict";t.r(s);var a=function(){var n=this,s=n._self._c;return s("english-words",{attrs:{category:"listening","typing-check":"alphabet",lang:"ru"}})},e=[],l=t("3b36"),r={components:{EnglishWords:l["a"]}},i=r,o=t("2877"),c=Object(o["a"])(i,a,e,!1,null,null,null);s["default"]=c.exports}}]);
+//# sourceMappingURL=page-russian-alphabet.7c5de504.js.map
