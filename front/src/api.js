@@ -15,7 +15,7 @@ export default {
   },
 
   async getStatic(address, defValue) {
-    return await this.get(`${this.staticURL}/static/${address}.json`, {
+    return await this.get(`${this.staticURL}/static/${address}.json?${Date.now().toString()}`, {
       value: defValue,
       slug: address,
     });
