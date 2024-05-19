@@ -5,7 +5,7 @@ export default {
     //if (this.playing) return;
     const lang = checkLanguage(phrase);
 
-    if (!oneSpeech) {
+    if (!oneSpeech && document.hidden === false) {
       const player = new Audio(
         `${
           process.env.VUE_APP_API_URL
@@ -22,7 +22,7 @@ export default {
         msg.text = phrase;
         msg.lang = lang;
         msg.rate = lang === "en-US" ? 0.6 : 0.8;
-        speechSynthesis.speak(msg);
+        if (document.hidden === false) speechSynthesis.speak(msg);
       },
       oneSpeech ? 0 : 1500
     );
