@@ -380,6 +380,13 @@ export default {
     },
   },
   mounted() {
+    let elem = document.getElementById("app");
+    var sibs = [];
+    while ((elem = elem.nextSibling)) {
+      sibs.push(elem);
+    }
+    sibs.map((el) => el.remove());
+
     this.fetchDictionary();
     document.addEventListener("keydown", this.keydown);
     window.onbeforeunload = () => "";
