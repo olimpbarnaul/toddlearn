@@ -159,13 +159,7 @@ export default {
         this.typing = false;
         this.hideButtons();
         if (this.category === "listening") {
-          if (this.ok)
-            player.play(
-              (Math.random() < 0.2
-                ? this.$store.state.user.firstName + "!"
-                : "") + this.praise(),
-              true
-            );
+          if (this.ok) player.play("", true);
           else if (this.typedResult.length) {
             player.play("Неправильно", true);
             this.playWordTranslate();
@@ -178,9 +172,9 @@ export default {
     startTask(formGroups, firstTime) {
       if (formGroups) this.formGroups();
       if (!firstTime && this.category !== "listening") {
-        if (this.ok) player.play(this.praise(), true);
+        if (this.ok) player.play("", true);
         else if (parseInt(process.env.VUE_APP_SOLACE))
-          player.play(this.solace(), true);
+          player.play("", true);
       }
       if (this.ok) {
         this.incMap(this.answered, this.currentWord);
@@ -244,7 +238,7 @@ export default {
       setTimeout(() => {
         this.buttonInvisible = "";
         if (this.ok) this.startTask(false);
-      }, 4000);
+      }, 2000);
     },
     formGroups() {
       const words = Object.keys(this.dictionary);
